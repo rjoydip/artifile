@@ -1,6 +1,4 @@
-import {
-  workspace, window,
-} from "vscode";
+import { workspace, window } from "vscode";
 
 export class Activity {
   openFileIndex: number;
@@ -10,8 +8,11 @@ export class Activity {
   }
 
   async openAllFiles() {
-    const file = this.files[0];
-    const doc = await workspace.openTextDocument(file);
-    window.showTextDocument(doc);
+    try {
+      await this.files.forEach(async file => {
+        const doc = await workspace.openTextDocument(file);
+        await window.showTextDocument(doc);
+      });
+    } catch (error) {}
   }
 }
