@@ -1,5 +1,5 @@
 import { workspace, window } from "vscode";
-import { modules } from "../utils";
+import * as globby from 'globby';
 import { GlobbyOption } from "../types";
 
 export class File {
@@ -22,7 +22,7 @@ export class File {
   }
 
   async getFiles(): Promise<string[]> {
-    return await modules.globby("", this.option);
+    return await globby("", this.option);
   }
 
   async openAllFiles(files: string[]) {
