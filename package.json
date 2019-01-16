@@ -15,12 +15,36 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [
-			{
-				"command": "extension.afa.active",
-				"title": "Active Automated File Activity"
+		"commands": [{
+			"command": "extension.afa.active",
+			"title": "Active Automated File Activity"
+		}],
+		"configuration": {
+			"type": "object",
+			"title": "File Peek extension configuration",
+			"properties": {
+				"afa.activeLanguages": {
+					"type": "array",
+					"default": [
+						"typescript",
+						"javascript",
+						"python"
+					],
+					"items": {
+						"type": "string"
+					},
+					"description": "A list of vscode language names where the extension should be used."
+				},
+				"afa.searchFileExtensions": {
+					"type": "array",
+					"default": [".js", ".ts", ".html", ".css", ".scss"],
+					"items": {
+						"type": "string"
+					},
+					"description": "A list of extensions that should be tried for finding peeked files.  These are tried in order as further extensions of the potential file name and also as alternative file endings instead of the existing file extension (if available)."
+				}
 			}
-		]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

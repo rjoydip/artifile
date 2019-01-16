@@ -6,3 +6,9 @@ export interface GlobbyOption {
 	absolute?: boolean;
 	onlyFiles?: boolean;
 }
+
+export interface FileQuickData {
+	detail: string;
+	label: string;
+	path: string;
+}

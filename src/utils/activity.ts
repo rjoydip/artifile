@@ -1,11 +1,24 @@
-export class Activity {
-	constructor(
-		protected files: string[] = []
-	) { }
+import { resolve } from "path";
+import {
+  Uri,
+} from "vscode";
 
-	start() {
-		this.files.forEach(file => {
-			console.log('file', file);
-		});
-	}
+import { showFileQuickPick, getFileQuickPickItem } from "./utils";
+import { FileQuickData } from "../types";
+
+export class Activity {
+  openFileIndex: number;
+
+  constructor(protected files: string[] = []) {
+    this.openFileIndex = 0;
+  }
+
+  async start() {
+    const files: FileQuickData[] = this.files.map(file => {
+      const uri = Uri.parse(resolve(file));
+      return getFileQuickPickItem(uri);
+    });
+    console.log(files);
+    await showFileQuickPick(files);
+  }
 }

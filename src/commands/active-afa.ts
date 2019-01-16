@@ -7,6 +7,5 @@ export const activeAFA = async () => {
 	const _file = new File({ cwd: _path.rootPath });
 	const files = await _file.getFiles();
 	const _activity = new Activity(files);
-	_activity.start();
-	await window.showInformationMessage('Active Automated File Activity!');
+	await _activity.start();
 }
