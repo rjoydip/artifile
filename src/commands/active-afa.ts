@@ -1,4 +1,4 @@
-import { window, workspace } from "vscode";
+import { workspace } from "vscode";
 import { Path, File, Activity } from '../utils';
 
 export const activeAFA = async () => {
@@ -7,5 +7,5 @@ export const activeAFA = async () => {
 	const _file = new File({ cwd: _path.rootPath });
 	const files = await _file.getFiles();
 	const _activity = new Activity(files);
-	await _activity.start();
+	await _activity.openAllFiles();
 }

@@ -1,10 +1,6 @@
-import { resolve } from "path";
 import {
-  Uri,
+  workspace, window,
 } from "vscode";
-
-import { showFileQuickPick, getFileQuickPickItem } from "./utils";
-import { FileQuickData } from "../types";
 
 export class Activity {
   openFileIndex: number;
@@ -13,12 +9,9 @@ export class Activity {
     this.openFileIndex = 0;
   }
 
-  async start() {
-    const files: FileQuickData[] = this.files.map(file => {
-      const uri = Uri.parse(resolve(file));
-      return getFileQuickPickItem(uri);
-    });
-    console.log(files);
-    await showFileQuickPick(files);
+  async openAllFiles() {
+    const file = this.files[0];
+    const doc = await workspace.openTextDocument(file);
+    window.showTextDocument(doc);
   }
 }
