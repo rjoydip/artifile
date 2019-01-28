@@ -1,6 +1,8 @@
 import { workspace, window } from "vscode";
-import * as globby from 'globby';
+import * as globby from "globby";
+import * as slash from "slash";
 import { GlobbyOption } from "../types";
+import { errorMessage } from "./message";
 
 export class File {
   files: string[];
@@ -25,12 +27,44 @@ export class File {
     return await globby("", this.option);
   }
 
-  async openAllFiles(files: string[]) {
+  async openAndShowDoc(file: string): Promise<any> {
     try {
-      await files.forEach(async file => {
-        const doc = await workspace.openTextDocument(file);
-        await window.showTextDocument(doc);
-      });
-    } catch (error) {}
+      const doc = await workspace.openTextDocument(file);
+      return await window.showTextDocument(doc);
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async openAllFiles(files: string[]): Promise<any> {
+    try {
+      await Promise.all(
+        files.map(async file => await this.openAndShowDoc(file))
+      );
+    } catch (error) {
+      return errorMessage(error);
+    }
+  }
+
+  get currentFile() {
+    const currentFile = window.activeTextEditor;
+    if (currentFile == null) {
+      return;
+    }
+    return currentFile.document.fileName.replace(workspace.rootPath + "/", "");
+  }
+
+  nextFile(files, currentFile): string {
+    const index = files.indexOf(slash(currentFile));
+    const newIndex = files.length === index ? 0 : index + 1;
+    return files[newIndex];
+  }
+
+  async selectFile(file: string): Promise<any> {
+    const currentFile = window.activeTextEditor;
+    if (currentFile == null) {
+      return;
+    }
+    return await this.openAndShowDoc(file);
   }
 }
