@@ -1,0 +1,22 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "ignorePaths": [
+    "**/.vscode/**",
+    "**/node_modules/**",
+    "**/pnpm-lock.yaml/**",
+    "**/dist/**",
+    "**/docs/**"
+  ],
+  "words": [
+    "antfu",
+    "bumpp",
+    "taze",
+    "esno",
+    "Joydip",
+    "preinstall",
+    "rjoydip",
+    "typecheck",
+    "tsup"
+  ]
+}

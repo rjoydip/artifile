@@ -1,48 +1,70 @@
 {
-	"name": "automated-file-activity",
-	"displayName": "automated-file-activity",
-	"description": "Automated File Activity for hack any desktop tracker",
-	"version": "0.0.1",
-	"publisher": "automated-file-activity",
-	"engines": {
-		"vscode": "^1.25.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:extension.afa.active",
-		"onCommand:extension.afa.closeAll"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "extension.afa.active",
-				"title": "Active Automated File Activity"
-			}
-		],
-		"menus": {
-            "editor/title": [
-                {
-                    "command": "extension.afa.active",
-                    "group": "navigation"
-                }
-            ]
-        }
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install"
-	},
-	"devDependencies": {
-		"@types/node": "^8.10.25",
-		"globby": "^9.0.0",
-		"slash": "^2.0.0",
-		"tslint": "^5.11.0",
-		"typescript": "^2.6.1",
-		"vscode": "^1.1.21"
-	}
+  "publisher": "rjoydip",
+  "name": "automated-file-activity",
+  "displayName": "Automated File Activity for hack any desktop tracker",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@8.9.2",
+  "description": "",
+  "author": "Joydip Roy <joydip.and@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/rjoydip/automated-file-activity#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rjoydip/automated-file-activity"
+  },
+  "bugs": {
+    "url": "https://github.com/rjoydip/automated-file-activity/issues"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/rjoydip"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/index.js",
+  "icon": "res/icon.png",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18",
+    "vscode": "^1.83.0"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "nr deps:update",
+    "build": "tsup src/index.ts --external vscode",
+    "dev": "nr build --watch",
+    "deps:update": "taze -r -w -i -f -l --ignore-paths='third_party/**'",
+    "lint": "eslint .",
+    "vscode:prepublish": "nr build",
+    "publish": "vsce publish --no-dependencies",
+    "pack": "vsce package --no-dependencies",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "release": "bumpp && nr publish",
+    "spell": "cspell ."
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^1.0.0-beta.29",
+    "@antfu/ni": "^0.21.8",
+    "@types/node": "^20.8.9",
+    "@types/vscode": "^1.83.1",
+    "@vscode/vsce": "^2.21.1",
+    "bumpp": "^9.2.0",
+    "cspell": "^7.3.8",
+    "eslint": "^8.52.0",
+    "esno": "^0.17.0",
+    "pnpm": "^8.9.2",
+    "rimraf": "^5.0.5",
+    "taze": "^0.12.0",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "vitest": "^0.34.6"
+  }
 }
