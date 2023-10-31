@@ -1,7 +1,7 @@
 {
   "publisher": "rjoydip",
   "name": "automated-file-activity",
-  "displayName": "Automated File Activity for hack any desktop tracker",
+  "displayName": "Automated File Activity (afa) for hack any desktop tracker",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@8.9.2",
@@ -22,7 +22,7 @@
   "categories": [
     "Other"
   ],
-  "main": "./dist/index.js",
+  "main": "./dist/extension.js",
   "icon": "res/icon.png",
   "files": [
     "dist"
@@ -31,23 +31,56 @@
     "node": ">=18",
     "vscode": "^1.83.0"
   },
-  "activationEvents": [
-    "onStartupFinished"
-  ],
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "title": "Start Automate",
+        "command": "afa.startAutomate",
+        "category": "AFA"
+      },
+      {
+        "title": "Stop Automate",
+        "command": "afa.stopAutomate",
+        "category": "AFA"
+      }
+    ]
+  },
+  "menus": {
+    "commandPalette": [
+      {
+        "command": "afa.startAutomate",
+        "when": "false"
+      },
+      {
+        "command": "afa.stopAutomate",
+        "when": "false"
+      }
+    ]
+  },
+  "configuration": {
+    "title": "AFA"
+  },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "postinstall": "nr deps:update",
-    "build": "tsup src/index.ts --external vscode",
-    "dev": "nr build --watch",
-    "deps:update": "taze -r -w -i -f -l --ignore-paths='third_party/**'",
+    "build": "tsup ./src/extension.ts --external vscode --minify --clean",
+    "dev": "tsup ./src/extension.ts --external vscode --watch --sourcemap",
+    "deps:update": "taze -r -w -i -f -l",
     "lint": "eslint .",
-    "vscode:prepublish": "nr build",
+    "lint:fix": "eslint . --fix",
     "publish": "vsce publish --no-dependencies",
     "pack": "vsce package --no-dependencies",
-    "test": "vitest",
     "typecheck": "tsc --noEmit",
     "release": "bumpp && nr publish",
-    "spell": "cspell ."
+    "spell": "cspell .",
+    "test": "vitest run",
+    "vscode:prepublish": "nr build"
+  },
+  "dependencies": {
+    "magic-regexp": "^0.7.0",
+    "text-extensions": "^2.4.0",
+    "totalist": "^3.0.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^1.0.0-beta.29",
@@ -65,6 +98,7 @@
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "vscode": "^1.1.37"
   }
 }
