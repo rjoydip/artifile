@@ -17,6 +17,3 @@ export async function getFiles(dir: string) {
 
   return files
 }
-
-export * from './command'
-export * from './log'

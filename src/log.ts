@@ -1,6 +1,6 @@
 import { window } from 'vscode'
 
-const _log = window.createOutputChannel('AFA')
+const _log = window.createOutputChannel('Automated File Activity')
 
 export const log = {
   info: (...args: any[]) => {

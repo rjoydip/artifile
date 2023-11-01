@@ -1,6 +1,7 @@
 import { Uri, commands, window, workspace } from 'vscode'
 
-import { Command, getFiles } from './utils'
+import { getFiles } from './utils'
+import { getCommands } from './command'
 
 function openFileInVscode(file: Uri) {
   workspace.openTextDocument(file).then(document => window.showTextDocument(document, { preview: false }))
@@ -20,7 +21,7 @@ async function startAutomate() {
         initAutomate(file)
     }
     else {
-      window.showErrorMessage('Working folder not found, open a folder an try again')
+      // TODO: open untitled file and put some content automatically
     }
   }
   else {
@@ -30,7 +31,8 @@ async function startAutomate() {
 }
 
 export async function activate() {
-  commands.registerCommand(Command.StartAutomate, startAutomate)
+  const commands$ = await getCommands()
+  commands.registerCommand(commands$.StartAutomate, startAutomate)
 }
 
 export function deactivate() { }

@@ -1,28 +1,26 @@
 {
   "publisher": "rjoydip",
-  "name": "automated-file-activity",
-  "displayName": "Automated File Activity (afa) for hack any desktop tracker",
+  "name": "artifile",
+  "displayName": "Automated File Activity for hack any desktop tracker",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@8.9.2",
+  "packageManager": "pnpm@8.10.2",
   "description": "",
   "author": "Joydip Roy <joydip.and@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/rjoydip/automated-file-activity#readme",
+  "homepage": "https://github.com/rjoydip/artifile#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rjoydip/automated-file-activity"
+    "url": "https://github.com/rjoydip/artifile"
   },
   "bugs": {
-    "url": "https://github.com/rjoydip/automated-file-activity/issues"
-  },
-  "sponsor": {
-    "url": "https://github.com/sponsors/rjoydip"
+    "url": "https://github.com/rjoydip/artifile/issues"
   },
   "categories": [
     "Other"
   ],
-  "main": "./dist/extension.js",
+  "main": "./dist/extension.cjs",
   "icon": "res/icon.png",
   "files": [
     "dist"
@@ -36,34 +34,35 @@
     "commands": [
       {
         "title": "Start Automate",
-        "command": "afa.startAutomate",
-        "category": "AFA"
+        "command": "artifile.startAutomate",
+        "category": "artifile"
       },
       {
         "title": "Stop Automate",
-        "command": "afa.stopAutomate",
-        "category": "AFA"
+        "command": "artifile.stopAutomate",
+        "category": "artifile"
       }
     ]
   },
   "menus": {
     "commandPalette": [
       {
-        "command": "afa.startAutomate",
+        "command": "artifile.startAutomate",
         "when": "false"
       },
       {
-        "command": "afa.stopAutomate",
+        "command": "artifile.stopAutomate",
         "when": "false"
       }
     ]
   },
   "configuration": {
-    "title": "AFA"
+    "title": "artifile"
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "nr deps:update",
+    "postinstall": "pnpm deps:update && husky install",
+    "all": "pnpm deps:update && pnpm lint:fix && pnpm spell && pnpm typecheck && pnpm build && pnpm test",
     "build": "tsup ./src/extension.ts --external vscode --minify --clean",
     "dev": "tsup ./src/extension.ts --external vscode --watch --sourcemap",
     "deps:update": "taze -r -w -i -f -l",
@@ -72,33 +71,42 @@
     "publish": "vsce publish --no-dependencies",
     "pack": "vsce package --no-dependencies",
     "typecheck": "tsc --noEmit",
-    "release": "bumpp && nr publish",
+    "release": "bumpp && pnpm publish",
     "spell": "cspell .",
     "test": "vitest run",
-    "vscode:prepublish": "nr build"
+    "vscode:prepublish": "pnpm build"
   },
   "dependencies": {
     "magic-regexp": "^0.7.0",
+    "pkg-conf": "^4.0.0",
     "text-extensions": "^2.4.0",
-    "totalist": "^3.0.1"
+    "totalist": "^3.0.1",
+    "vscode": "^1.1.37"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.29",
-    "@antfu/ni": "^0.21.8",
-    "@types/node": "^20.8.9",
+    "@antfu/eslint-config": "^1.0.0",
+    "@commitlint/cli": "^18.2.0",
+    "@commitlint/config-conventional": "^18.1.0",
+    "@types/node": "^20.8.10",
     "@types/vscode": "^1.83.1",
-    "@vscode/vsce": "^2.21.1",
+    "@vscode/vsce": "^2.22.0",
     "bumpp": "^9.2.0",
     "cspell": "^7.3.8",
     "eslint": "^8.52.0",
     "esno": "^0.17.0",
-    "pnpm": "^8.9.2",
-    "rimraf": "^5.0.5",
+    "husky": "^8.0.3",
+    "nano-staged": "^0.8.0",
+    "pnpm": "^8.10.2",
     "taze": "^0.12.0",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
-    "vitest": "^0.34.6",
-    "vscode": "^1.1.37"
+    "vitest": "^0.34.6"
+  },
+  "nano-staged": {
+    "*": [
+      "cspell .",
+      "eslint --color --cache --fix --cache-location .eslintcache ."
+    ]
   }
 }
