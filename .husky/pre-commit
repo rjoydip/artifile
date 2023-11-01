@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+pnpm deps:update
+pnpm build
+pnpm test
+pnpm typecheck
+./node_modules/.bin/nano-staged
+git add .

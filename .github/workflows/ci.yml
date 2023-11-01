@@ -2,16 +2,13 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
   pull_request:
-    branches:
-      - main
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v3
 
@@ -35,6 +32,7 @@ jobs:
 
   typecheck:
     runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v3
 
@@ -58,6 +56,7 @@ jobs:
 
   test:
     runs-on: ${{ matrix.os }}
+    if: github.actor != 'dependabot[bot]'
 
     strategy:
       matrix:
@@ -88,3 +87,12 @@ jobs:
 
       - name: Test
         run: nr test
+
+  pr_title_check:
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+    steps:
+      - uses: thehanimo/pr-title-checker@v1.4.0
+        with:
+          pass_on_octokit_error: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

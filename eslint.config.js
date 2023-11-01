@@ -1,15 +1,12 @@
-// @ts-check
-const antfu = require('@antfu/eslint-config').default
+import antfu from '@antfu/eslint-config'
 
-module.exports = antfu(
-  {
-    ignores: [
-      // eslint ignore globs here
-    ],
-  },
-  {
-    rules: {
-      // overrides
-    },
-  },
-)
+export default antfu({
+  stylistic: true,
+  typescript: true,
+  json: true,
+  jsonc: true,
+  yml: true,
+  markdown: true,
+}, {
+  ignores: ['**/fixtures'],
+})

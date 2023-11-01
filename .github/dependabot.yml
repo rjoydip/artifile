@@ -1,0 +1,13 @@
+---
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      time: '00:10'
+      timezone: Asia/Calcutta
+    versioning-strategy: widen
+    target-branch: main
+    labels:
+      - 🤖dependabot

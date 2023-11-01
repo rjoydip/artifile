@@ -1,0 +1,17 @@
+{
+  "LABEL": {
+    "name": "title needs formatting",
+    "color": "EEEEEE"
+  },
+  "CHECKS": {
+    "prefixes": [],
+    "regexp": "(?<type>build|chore|ci|docs|feat|fix|modified|perf|refactor|revert|style|test)(?<scope>(?:\\([^()\r\n]*\\)|\\()?(?<breaking>!)?:)(?<subject>:.*)?",
+    "regexpFlags": "i",
+    "ignoreLabels": ["meta"]
+  },
+  "MESSAGES": {
+    "success": "All OK",
+    "failure": "Failing CI test",
+    "notice": ""
+  }
+}
