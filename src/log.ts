@@ -1,6 +1,6 @@
 import { window } from 'vscode'
 
-const _log = window.createOutputChannel('Automated File Activity')
+const _log = window.createOutputChannel('Artifile')
 
 export const log = {
   info: (...args: any[]) => {

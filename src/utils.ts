@@ -3,7 +3,7 @@ import { anyOf, createRegExp } from 'magic-regexp'
 import textExtensions from 'text-extensions'
 
 export const fileExtRegex = createRegExp('.', anyOf(...textExtensions))
-export const folderIgnoreRegexp = createRegExp(anyOf('node_modules', 'cache'))
+export const folderIgnoreRegexp = createRegExp(anyOf('node_modules', 'cache', 'dist'))
 
 export async function getFiles(dir: string) {
   const files: Set<string> = new Set()
