@@ -53,7 +53,7 @@
   "dependencies": {
     "magic-regexp": "^0.7.0",
     "p-throttle": "^5.1.0",
-    "pkg-conf": "^4.0.0",
+    "pkg-conf": "^5.0.0",
     "text-extensions": "^2.4.0",
     "totalist": "^3.0.1"
   },
