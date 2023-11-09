@@ -1,12 +1,12 @@
 {
   "publisher": "rjoydip",
   "name": "artifile",
-  "displayName": "Automated File Activity for hack any desktop tracker",
+  "displayName": "Artifile",
   "type": "module",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@8.10.2",
-  "description": "",
+  "description": "Automated File Activity for hack any desktop tracker",
   "author": "Joydip Roy <joydip.and@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/rjoydip/artifile#readme",
@@ -20,7 +20,7 @@
   "categories": [
     "Other"
   ],
-  "main": "./dist/extension.cjs",
+  "main": "./dist/extension.js",
   "icon": "res/icon.png",
   "files": [
     "dist"
@@ -29,83 +29,54 @@
     "node": ">=18",
     "vscode": "^1.83.0"
   },
-  "activationEvents": [],
-  "contributes": {
-    "commands": [
-      {
-        "title": "Start Automate",
-        "command": "artifile.startAutomate",
-        "category": "artifile"
-      },
-      {
-        "title": "Stop Automate",
-        "command": "artifile.stopAutomate",
-        "category": "artifile"
-      }
-    ]
-  },
-  "menus": {
-    "commandPalette": [
-      {
-        "command": "artifile.startAutomate",
-        "when": "false"
-      },
-      {
-        "command": "artifile.stopAutomate",
-        "when": "false"
-      }
-    ]
-  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "configuration": {
     "title": "artifile"
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "pnpm deps:update && husky install",
-    "all": "pnpm deps:update && pnpm lint:fix && pnpm spell && pnpm typecheck && pnpm build && pnpm test",
-    "build": "tsup ./src/extension.ts --external vscode --minify --clean",
-    "dev": "tsup ./src/extension.ts --external vscode --watch --sourcemap",
+    "postinstall": "nr deps:update && npx husky install",
+    "all": "nr deps:update && nr lint && nr typecheck && nr build && nr test",
+    "build": "tsup",
+    "dev": "nr build --watch",
     "deps:update": "taze -r -w -i -f -l",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
     "publish": "vsce publish --no-dependencies",
     "pack": "vsce package --no-dependencies",
     "typecheck": "tsc --noEmit",
-    "release": "bumpp && pnpm publish",
-    "spell": "cspell .",
+    "release": "bumpp && nr publish",
     "test": "vitest run",
-    "vscode:prepublish": "pnpm build"
+    "vscode:prepublish": "nr build"
   },
   "dependencies": {
     "magic-regexp": "^0.7.0",
+    "p-throttle": "^5.1.0",
     "pkg-conf": "^4.0.0",
     "text-extensions": "^2.4.0",
-    "totalist": "^3.0.1",
-    "vscode": "^1.1.37"
+    "totalist": "^3.0.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0",
-    "@commitlint/cli": "^18.2.0",
-    "@commitlint/config-conventional": "^18.1.0",
-    "@types/node": "^20.8.10",
-    "@types/vscode": "^1.83.1",
+    "@antfu/eslint-config": "^1.1.0",
+    "@antfu/ni": "^0.21.8",
+    "@types/node": "^20.9.0",
+    "@types/vscode": "^1.84.1",
     "@vscode/vsce": "^2.22.0",
     "bumpp": "^9.2.0",
-    "cspell": "^7.3.8",
-    "eslint": "^8.52.0",
-    "esno": "^0.17.0",
+    "eslint": "^8.53.0",
     "husky": "^8.0.3",
     "nano-staged": "^0.8.0",
-    "pnpm": "^8.10.2",
+    "pnpm": "8.10.2",
     "taze": "^0.12.0",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "vscode": "^1.1.37"
   },
   "nano-staged": {
     "*": [
-      "cspell .",
       "eslint --color --cache --fix --cache-location .eslintcache ."
     ]
   }

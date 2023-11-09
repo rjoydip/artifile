@@ -87,12 +87,3 @@ jobs:
 
       - name: Test
         run: nr test
-
-  pr_title_check:
-    runs-on: ubuntu-latest
-    if: github.actor != 'dependabot[bot]'
-    steps:
-      - uses: thehanimo/pr-title-checker@v1.4.0
-        with:
-          pass_on_octokit_error: false
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

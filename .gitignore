@@ -4,6 +4,7 @@
 *.log
 *.tgz
 *.vsix
+.eslintcache
 coverage
 dist
 lib-cov
