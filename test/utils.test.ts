@@ -1,6 +1,6 @@
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { fileExtRegex, getFiles } from '../src/utils'
+import { fileExtRegex, getFiles } from '../src/utils/utils'
 
 describe('utils', () => {
   it('should valid file extension', () => {

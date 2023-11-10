@@ -2,7 +2,6 @@
   "publisher": "rjoydip",
   "name": "artifile",
   "displayName": "Artifile",
-  "type": "module",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@8.10.2",
@@ -37,7 +36,6 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "nr deps:update && npx husky install",
     "all": "nr deps:update && nr lint && nr typecheck && nr build && nr test",
     "build": "tsup",
     "dev": "nr build --watch",
@@ -52,8 +50,7 @@
   },
   "dependencies": {
     "magic-regexp": "^0.7.0",
-    "p-throttle": "^5.1.0",
-    "pkg-conf": "^4.0.0",
+    "mitt": "^3.0.1",
     "text-extensions": "^2.4.0",
     "totalist": "^3.0.1"
   },
@@ -65,15 +62,21 @@
     "@vscode/vsce": "^2.22.0",
     "bumpp": "^9.2.0",
     "eslint": "^8.53.0",
-    "husky": "^8.0.3",
     "nano-staged": "^0.8.0",
     "pnpm": "8.10.2",
+    "simple-git-hooks": "^2.9.0",
     "taze": "^0.12.0",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
     "vitest": "^0.34.6",
     "vscode": "^1.1.37"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm deps:update && pnpm build && pnpm test && pnpm typecheck && npx nano-staged",
+    "preserveUnused": [
+      "commit-msg"
+    ]
   },
   "nano-staged": {
     "*": [
