@@ -4,7 +4,7 @@ import { getFiles } from './utils/utils'
 import { closeAllOpenedFiles, getWorkspaceFolders, log, openTextDocument, showErrorMessage, showTextDocumentNonPreview } from './utils'
 import { pForever } from './extrn'
 
-async function navigateNextFile(count: number = 0, numOfFiles:number = 0, files: string[] ) {
+async function navigateNextFile(count: number = 0, numOfFiles: number = 0, files: string[]) {
   const nextIndex = (numOfFiles + count) % (numOfFiles)
   await setTimeout(2000)
   log.info('>>>', count, numOfFiles, nextIndex)
@@ -27,9 +27,9 @@ export async function activate() {
       await Promise.allSettled(showDocPromises)
       await pForever(async (index) => {
         index++
-        if (index > 100) {
+        if (index > 100)
           return pForever.end
-        }
+
         await navigateNextFile(index - 1, files.size, [...files])
         return index
       }, 0)

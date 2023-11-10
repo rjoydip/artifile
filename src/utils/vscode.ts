@@ -1,4 +1,3 @@
-import { setTimeout } from 'node:timers/promises'
 import { commands, window, workspace } from 'vscode'
 import type { TextDocument } from 'vscode'
 

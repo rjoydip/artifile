@@ -73,10 +73,7 @@
     "vscode": "^1.1.37"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm deps:update && pnpm build && pnpm test && pnpm typecheck && npx nano-staged",
-    "preserveUnused": [
-      "commit-msg"
-    ]
+    "pre-commit": "pnpm deps:update && pnpm build && pnpm test && pnpm typecheck && npx nano-staged"
   },
   "nano-staged": {
     "*": [
