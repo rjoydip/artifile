@@ -72,6 +72,7 @@
     "dev": "esno scripts/dev.ts",
     "deps:update": "taze -r -w -i -f -l",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "publish": "vsce publish --no-dependencies",
     "pack": "vsce package --no-dependencies",
     "typecheck": "tsc --noEmit",
