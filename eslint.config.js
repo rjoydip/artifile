@@ -1,12 +1,11 @@
-import antfu from '@antfu/eslint-config'
+// @ts-check
+const antfu = require('@antfu/eslint-config').default
 
-export default antfu({
+module.exports = antfu({
   stylistic: true,
   typescript: true,
-  json: true,
-  jsonc: true,
-  yml: true,
   markdown: true,
+  jsonc: true,
 }, {
   ignores: ['**/fixtures'],
 })
