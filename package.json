@@ -1,11 +1,11 @@
 {
   "publisher": "rjoydip",
   "name": "artifile",
-  "displayName": "Artifile",
+  "displayName": "Artifile - A VSCode automation extension",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@8.10.2",
-  "description": "Automated File Activity for hack any desktop tracker",
+  "description": "A VSCode automation extension",
   "author": "Joydip Roy <joydip.and@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/rjoydip/artifile#readme",
@@ -19,7 +19,7 @@
   "categories": [
     "Other"
   ],
-  "main": "./dist/extension.js",
+  "main": "./dist/index.js",
   "icon": "res/icon.png",
   "files": [
     "dist"
@@ -28,17 +28,48 @@
     "node": ">=18",
     "vscode": "^1.83.0"
   },
-  "activationEvents": [
-    "onStartupFinished"
-  ],
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "artifile.start-automate",
+        "category": "Artifile",
+        "title": "Start Automatation"
+      },
+      {
+        "command": "artifile.stop-automate",
+        "category": "Artifile",
+        "title": "Stop Automatation"
+      }
+    ]
+  },
   "configuration": {
-    "title": "artifile"
+    "type": "object",
+    "title": "Artifile - A VSCode automation extension",
+    "properties": {
+      "artifile.gitignore": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enable gitignore to parse excludes."
+      },
+      "artifile.excludes": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "node_modules",
+            "cache",
+            "dist"
+          ]
+        }
+      }
+    }
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "all": "nr deps:update && nr lint && nr typecheck && nr build && nr test",
-    "build": "tsup",
-    "dev": "nr build --watch",
+    "build": "esno scripts/build.ts",
+    "dev": "esno scripts/dev.ts",
     "deps:update": "taze -r -w -i -f -l",
     "lint": "eslint .",
     "publish": "vsce publish --no-dependencies",
@@ -50,18 +81,20 @@
   },
   "dependencies": {
     "magic-regexp": "^0.7.0",
-    "mitt": "^3.0.1",
     "text-extensions": "^2.4.0",
     "totalist": "^3.0.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^1.1.0",
     "@antfu/ni": "^0.21.8",
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.9.0",
     "@types/vscode": "^1.84.1",
     "@vscode/vsce": "^2.22.0",
     "bumpp": "^9.2.0",
     "eslint": "^8.53.0",
+    "esno": "^0.17.0",
+    "fs-extra": "^11.1.1",
     "nano-staged": "^0.8.0",
     "pnpm": "8.10.2",
     "simple-git-hooks": "^2.9.0",

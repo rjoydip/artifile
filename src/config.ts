@@ -1,7 +1,13 @@
 import { workspace } from 'vscode'
 
-interface IConfig {}
+export function getConfig<T = any>(key: string): T | undefined {
+  return workspace
+    .getConfiguration()
+    .get<T>(key)
+}
 
-export function getConfiguration(extension = 'artifile'): IConfig {
-  return workspace.getConfiguration().get(extension) || {}
+export async function setConfig(key: string, value: any, isGlobal = true) {
+  return await workspace
+    .getConfiguration()
+    .update(key, value, isGlobal)
 }

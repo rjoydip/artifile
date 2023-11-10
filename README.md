@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/rjoydip/artifile/actions/workflows/ci.yml/badge.svg)](https://github.com/rjoydip/artifile/actions/workflows/ci.yml)
 
-Automated File Activity for hack any desktop tracker.
+A VSCode automation extension
 
 ## Todo
 

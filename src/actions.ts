@@ -1,21 +1,19 @@
 import { setTimeout } from 'node:timers/promises'
 import { Uri } from 'vscode'
-import { getFiles } from './utils/utils'
-import { closeAllOpenedFiles, getWorkspaceFolders, log, openTextDocument, showErrorMessage, showTextDocumentNonPreview } from './utils'
 import { pForever } from './extrn'
+import { Log, closeAllOpenedFiles, getFiles, getWorkspaceFolders, openTextDocument, showErrorMessage, showTextDocumentNonPreview } from './utils'
 
-async function navigateNextFile(count: number = 0, numOfFiles: number = 0, files: string[]) {
+async function navigateFile(count: number = 0, numOfFiles: number = 0, files: string[]) {
   const nextIndex = (numOfFiles + count) % (numOfFiles)
   await setTimeout(2000)
-  log.info('>>>', count, numOfFiles, nextIndex)
+  Log.info(`✅ ${count}, ${numOfFiles}, ${nextIndex}`)
   const document = await openTextDocument(files[nextIndex])
   return await showTextDocumentNonPreview(document)
 }
 
-export async function activate() {
+export async function start() {
   await closeAllOpenedFiles()
   const workspaceFolders = getWorkspaceFolders()
-
   if (workspaceFolders !== undefined) {
     const dir = Uri.file(workspaceFolders[0].uri.fsPath).fsPath
     const files = await getFiles(dir)
@@ -30,7 +28,7 @@ export async function activate() {
         if (index > 100)
           return pForever.end
 
-        await navigateNextFile(index - 1, files.size, [...files])
+        await navigateFile(index - 1, files.size, [...files])
         return index
       }, 0)
     }
@@ -44,4 +42,8 @@ export async function activate() {
   }
 }
 
-export async function deactivate() { }
+export function pause() {
+}
+
+export function stop() {
+}

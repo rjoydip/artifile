@@ -1,29 +1,51 @@
+import type { OutputChannel } from 'vscode'
 import { window } from 'vscode'
+import { EXT_NAME } from '../meta'
 
-const _log = window.createOutputChannel('Artifile')
+export class Log {
+  private static _channel: OutputChannel
 
-export const log = {
-  info: (...args: any[]) => {
-    // eslint-disable-next-line no-console
-    console.log(...args)
-    const time = new Date().toLocaleTimeString()
-    _log.appendLine(`[INFO ${time}] ${args.join(' ')}`)
-  },
-  error: (...args: any[]) => {
-    console.error(...args)
-    const time = new Date().toLocaleTimeString()
-    for (let i = 0; i < args.length; i++) {
-      if (args[i] instanceof Error) {
-        const err = args[i] as Error
-        args[i] = `[Error ${err.name}] ${err.message}\n${err.stack}`
-      }
+  static get outputChannel(): OutputChannel {
+    if (!this._channel)
+      this._channel = window.createOutputChannel(EXT_NAME)
+    return this._channel
+  }
+
+  static raw(...values: any[]) {
+    this.outputChannel.appendLine(values.map(i => i.toString()).join(' '))
+  }
+
+  static info(message: string, intend = 0) {
+    this.outputChannel.appendLine(`${'\t'.repeat(intend)}${message}`)
+  }
+
+  static warning(message: string, prompt = false, intend = 0) {
+    if (prompt)
+      window.showWarningMessage(message)
+    Log.info(`⚠ WARN: ${message}`, intend)
+  }
+
+  static async error(err: Error | string | any = {}, prompt = true, intend = 0) {
+    if (typeof err !== 'string')
+      Log.info(`🐛 ERROR: ${err.name}: ${err.message}\n${err.stack}`, intend)
+
+    if (prompt) {
+      const openOutputButton = 'Error Log'
+      const message = typeof err === 'string'
+        ? err
+        : `${EXT_NAME} Error: ${err.toString()}`
+
+      const result = await window.showErrorMessage(message, openOutputButton)
+      if (result === openOutputButton)
+        this.show()
     }
-    _log.appendLine(`[Error ${time}] ${args.join(' ')}`)
-  },
-  workspaceInfo: (folder: string, ...args: any[]) => {
-    log.info(`[Workspace ${folder}]`, ...args)
-  },
-  workspaceError: (folder: string, ...args: any[]) => {
-    log.error(`[Workspace ${folder}]`, ...args)
-  },
-} as const
+  }
+
+  static show() {
+    this._channel.show()
+  }
+
+  static divider() {
+    this.outputChannel.appendLine('\n――――――\n')
+  }
+}
