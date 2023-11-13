@@ -4,7 +4,7 @@
   "displayName": "Artifile - A VSCode automation extension",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@8.10.2",
+  "packageManager": "pnpm@8.10.3",
   "description": "A VSCode automation extension",
   "author": "Joydip Roy <joydip.and@gmail.com>",
   "license": "MIT",
@@ -86,8 +86,8 @@
     "totalist": "^3.0.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.1.0",
-    "@antfu/ni": "^0.21.8",
+    "@antfu/eslint-config": "^1.1.1",
+    "@antfu/ni": "^0.21.9",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.9.0",
     "@types/vscode": "^1.84.1",
@@ -97,7 +97,7 @@
     "esno": "^0.17.0",
     "fs-extra": "^11.1.1",
     "nano-staged": "^0.8.0",
-    "pnpm": "8.10.2",
+    "pnpm": "8.10.3",
     "simple-git-hooks": "^2.9.0",
     "taze": "^0.12.0",
     "tsup": "^7.2.0",

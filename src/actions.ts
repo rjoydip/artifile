@@ -1,7 +1,8 @@
 import { setTimeout } from 'node:timers/promises'
 import { Uri } from 'vscode'
 import { pForever } from './extrn'
-import { Log, closeAllOpenedFiles, getFiles, getWorkspaceFolders, openTextDocument, showErrorMessage, showTextDocumentNonPreview } from './utils'
+import { Log, closeAllOpenedFiles, getWorkspaceFolders, openTextDocument, showErrorMessage, showTextDocumentNonPreview } from './utils'
+import { getFiles } from './utils/fs'
 
 async function navigateFile(count: number = 0, numOfFiles: number = 0, files: string[]) {
   const nextIndex = (numOfFiles + count) % (numOfFiles)
