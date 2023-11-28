@@ -1,7 +1,7 @@
 import { setTimeout } from 'node:timers/promises'
-import { Uri } from 'vscode'
+import { Uri, window } from 'vscode'
 import { pForever } from './extrn'
-import { Log, closeAllOpenedFiles, getWorkspaceFolders, openTextDocument, showErrorMessage, showTextDocumentNonPreview } from './utils'
+import { Log, closeAllOpenedFiles, createBlankFile, getWorkspaceFSpath, getWorkspaceFolders, openBlankFile, openTextDocument, showErrorMessage, showTextDocumentNonPreview } from './utils'
 import { getFiles } from './utils/fs'
 
 async function navigateFile(count: number = 0, numOfFiles: number = 0, files: string[]) {
@@ -10,6 +10,43 @@ async function navigateFile(count: number = 0, numOfFiles: number = 0, files: st
   Log.info(`✅ ${count}, ${numOfFiles}, ${nextIndex}`)
   const document = await openTextDocument(files[nextIndex])
   return await showTextDocumentNonPreview(document)
+}
+
+async function blankFilePrompt() {
+  const confirmationPrompt = await window.showInputBox({
+    prompt: 'Do you want with empty file?',
+    value: 'Yes',
+  })
+
+  if (confirmationPrompt?.toLocaleLowerCase() === 'yes') {
+    const createFilePprompt = await window.showInputBox({
+      prompt: 'Do you want create a file?',
+      value: 'Yes',
+    })
+    if (createFilePprompt?.toLocaleLowerCase() === 'yes') {
+      const filenamePrompt = await window.showInputBox({
+        prompt: 'Enter file name',
+        value: 'Blank.txt',
+      })
+      const directoryPrompt = await window.showInputBox({
+        prompt: 'Enter location',
+        value: getWorkspaceFSpath(),
+      })
+      if (filenamePrompt) {
+        if (directoryPrompt)
+          await createBlankFile(filenamePrompt?.toString(), directoryPrompt?.toString())
+        else
+          await createBlankFile(filenamePrompt?.toString())
+      }
+      else { await createBlankFile() }
+    }
+    else {
+      await openBlankFile()
+    }
+  }
+  else {
+    showErrorMessage('Working folder not found, open a folder an try again')
+  }
 }
 
 export async function start() {
@@ -34,17 +71,16 @@ export async function start() {
       }, 0)
     }
     else {
-      // TODO: open untitled file and put some content automatically
-      showErrorMessage('Working folder is empty, create a file an try again')
+      await blankFilePrompt()
     }
   }
   else {
-    showErrorMessage('Working folder not found, open a folder an try again')
+    await blankFilePrompt()
   }
 }
 
-export function pause() {
+export async function pause() {
 }
 
-export function stop() {
+export async function stop() {
 }

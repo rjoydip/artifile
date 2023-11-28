@@ -10,7 +10,8 @@ A VSCode automation extension
 - [x] Ignore files folder
 - [x] Open those files in editor
 - [x] Navigate file to file
-- [ ] Introduce pevent emitter / pubsub
+- [x] Blank file creation
+- [ ] Vscode configuration enabled
 - [ ] Read all file from top to bottom
 - [ ] Collect stats of each activity
-- [ ] Vscode configuration enabled
+- [ ] Handle proper automation

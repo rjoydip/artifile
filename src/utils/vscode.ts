@@ -1,5 +1,8 @@
-import { commands, window, workspace } from 'vscode'
+import { Buffer } from 'node:buffer'
+import { join } from 'node:path'
+import { Uri, commands, window, workspace } from 'vscode'
 import type { TextDocument } from 'vscode'
+import { Log } from './log'
 
 export function openTextDocument(file: string) {
   return workspace.openTextDocument(file)
@@ -25,6 +28,15 @@ export function getWorkspaceFolders() {
   return workspace.workspaceFolders
 }
 
+export function getWorkspaceFSpath() {
+  let _path = ''
+  const workspaceFolders = getWorkspaceFolders()
+  if (workspaceFolders)
+    _path = workspaceFolders[0].uri.fsPath.toString()
+
+  return _path
+}
+
 export function getTotalNumberOfOpenedFiles() {
   const len = getWorkspaceTextDocuments().length
   return len === 0 ? len : len - 1
@@ -44,4 +56,16 @@ export function showTextDocument(document: TextDocument) {
 
 export function showTextDocumentNonPreview(document: TextDocument) {
   return window.showTextDocument(document, { preview: false })
+}
+
+export async function createBlankFile(fileName: string = 'blank.txt', path: string = '', fileContent: string = '') {
+  const _path = join(getWorkspaceFSpath(), path)
+  const uri = _path ? Uri.file(`${_path}/${fileName}`) : Uri.file(fileName)
+  const content = Buffer.from(fileContent, 'utf8')
+  return await workspace.fs.writeFile(uri, content)
+}
+
+export async function openBlankFile(fileContent: string = '') {
+  const document = await workspace.openTextDocument({ content: fileContent })
+  return await window.showTextDocument(document)
 }
