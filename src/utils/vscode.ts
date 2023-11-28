@@ -2,7 +2,6 @@ import { Buffer } from 'node:buffer'
 import { join } from 'node:path'
 import { Uri, commands, window, workspace } from 'vscode'
 import type { TextDocument } from 'vscode'
-import { Log } from './log'
 
 export function openTextDocument(file: string) {
   return workspace.openTextDocument(file)
