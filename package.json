@@ -91,7 +91,7 @@
     "totalist": "^3.0.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.2.1",
+    "@antfu/eslint-config": "^2.1.1",
     "@antfu/ni": "^0.21.12",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.10.0",
