@@ -1,5 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { join } from 'node:path'
+import { setTimeout } from 'node:timers/promises'
 import { Uri, commands, window, workspace } from 'vscode'
 import type { TextDocument } from 'vscode'
 
@@ -68,3 +69,12 @@ export async function openBlankFile(fileContent: string = '') {
   const document = await workspace.openTextDocument({ content: fileContent })
   return await window.showTextDocument(document)
 }
+
+export async function navigateFile(count: number = 0, numOfFiles: number = 0, files: string[], timeout: number = 0) {
+  const nextIndex = (numOfFiles + count) % (numOfFiles)
+  await setTimeout(timeout)
+  const document = await openTextDocument(files[nextIndex])
+  return await showTextDocumentNonPreview(document)
+}
+
+export * from './prompt'

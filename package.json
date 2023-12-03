@@ -2,6 +2,7 @@
   "publisher": "rjoydip",
   "name": "artifile",
   "displayName": "Artifile - A VSCode automation extension",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@8.11.0",
@@ -46,33 +47,43 @@
         "category": "Artifile",
         "title": "Stop Automatation"
       }
-    ]
-  },
-  "configuration": {
-    "type": "object",
-    "title": "Artifile - A VSCode automation extension",
-    "properties": {
-      "artifile.gitignore": {
-        "type": "boolean",
-        "default": true,
-        "description": "Enable gitignore to parse excludes."
-      },
-      "artifile.excludes": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "enum": [
-            "node_modules",
-            "cache",
-            "dist"
-          ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Artifile - A VSCode automation extension",
+      "properties": {
+        "artifile.gitignore": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable gitignore to parse excludes"
+        },
+        "artifile.excludes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "node_modules",
+              "cache",
+              "dist"
+            ]
+          }
+        },
+        "artifile.navigation.timeout": {
+          "type": "integer",
+          "default": 2100,
+          "description": "Timeout for file navigation"
+        },
+        "artifile.navigation.maxLimit": {
+          "type": "integer",
+          "default": 100,
+          "description": "Navigation maximum number of times"
         }
       }
     }
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "all": "nr deps:update && nr lint && nr typecheck && nr build && nr test",
+    "all": "nr deps:update && nr lint:fix && nr typecheck && nr build && nr test",
     "build": "esno scripts/build.ts",
     "dev": "esno scripts/dev.ts",
     "deps:update": "taze -r -w -i -f -l",
@@ -86,6 +97,7 @@
     "vscode:prepublish": "nr build"
   },
   "dependencies": {
+    "dot-prop": "^8.0.2",
     "magic-regexp": "^0.7.0",
     "text-extensions": "^2.4.0",
     "totalist": "^3.0.1"
@@ -93,26 +105,27 @@
   "devDependencies": {
     "@antfu/eslint-config": "^1.2.1",
     "@antfu/ni": "^0.21.12",
+    "@types/debug": "^4.1.12",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.10.0",
+    "@types/node": "^20.10.2",
     "@types/vscode": "^1.84.2",
     "@vscode/vsce": "^2.22.0",
+    "@vue/reactivity": "^3.3.9",
     "bumpp": "^9.2.0",
-    "eslint": "^8.54.0",
+    "debug": "^4.3.4",
+    "eslint": "^8.55.0",
     "esno": "^0.17.0",
     "fs-extra": "^11.2.0",
     "nano-staged": "^0.8.0",
     "pnpm": "8.11.0",
-    "simple-git-hooks": "^2.9.0",
-    "taze": "^0.12.2",
+    "read-pkg": "^9.0.1",
+    "taze": "^0.12.3",
     "tsup": "^7.3.0",
     "typescript": "^5.3.2",
     "vite": "^4.5.0",
     "vitest": "^0.34.6",
-    "vscode": "^1.1.37"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm deps:update && pnpm build && pnpm test && pnpm typecheck && npx nano-staged"
+    "vscode": "^1.1.37",
+    "write-package": "^7.0.0"
   },
   "nano-staged": {
     "*": [
