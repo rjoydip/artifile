@@ -1,13 +1,9 @@
-import type { DecorationOptions, ExtensionContext } from 'vscode'
+import type { ExtensionContext } from 'vscode'
 import { commands } from 'vscode'
 import { EXT_NAMESPACE } from './meta'
 import { pause, start, stop } from './actions'
 
-export interface DecorationMatch extends DecorationOptions {
-  key: string
-}
-
-export function RegisterCommands(ctx: ExtensionContext) {
+export function RegisterCommands(ctx: ExtensionContext): ExtensionContext {
   ctx.subscriptions.push(
     commands.registerCommand(`${EXT_NAMESPACE}.start-automate`, async () => {
       await start()
@@ -25,4 +21,6 @@ export function RegisterCommands(ctx: ExtensionContext) {
       await stop()
     }),
   )
+
+  return ctx
 }

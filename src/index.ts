@@ -5,7 +5,6 @@ import { Log } from './utils'
 
 export async function activate(ctx: ExtensionContext) {
   Log.info(`🈶 Activated, v${version}`)
-
   RegisterCommands(ctx)
 }
 

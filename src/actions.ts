@@ -1,58 +1,14 @@
-import { setTimeout } from 'node:timers/promises'
-import { Uri, window } from 'vscode'
+import { Uri } from 'vscode'
 import { pForever } from './extrn'
-import { Log, closeAllOpenedFiles, createBlankFile, getWorkspaceFSpath, getWorkspaceFolders, openBlankFile, openTextDocument, showErrorMessage, showTextDocumentNonPreview } from './utils'
+import { Log, closeAllOpenedFiles, getWorkspaceFolders, navigateFile, openTextDocument, prompt, showTextDocumentNonPreview } from './utils'
 import { getFiles } from './utils/fs'
-
-async function navigateFile(count: number = 0, numOfFiles: number = 0, files: string[]) {
-  const nextIndex = (numOfFiles + count) % (numOfFiles)
-  await setTimeout(2000)
-  Log.info(`✅ ${count}, ${numOfFiles}, ${nextIndex}`)
-  const document = await openTextDocument(files[nextIndex])
-  return await showTextDocumentNonPreview(document)
-}
-
-async function blankFilePrompt() {
-  const confirmationPrompt = await window.showInputBox({
-    prompt: 'Do you want with empty file?',
-    value: 'Yes',
-  })
-
-  if (confirmationPrompt?.toLocaleLowerCase() === 'yes') {
-    const createFilePprompt = await window.showInputBox({
-      prompt: 'Do you want create a file?',
-      value: 'Yes',
-    })
-    if (createFilePprompt?.toLocaleLowerCase() === 'yes') {
-      const filenamePrompt = await window.showInputBox({
-        prompt: 'Enter file name',
-        value: 'Blank.txt',
-      })
-      const directoryPrompt = await window.showInputBox({
-        prompt: 'Enter location',
-        value: getWorkspaceFSpath(),
-      })
-      if (filenamePrompt) {
-        if (directoryPrompt)
-          await createBlankFile(filenamePrompt?.toString(), directoryPrompt?.toString())
-        else
-          await createBlankFile(filenamePrompt?.toString())
-      }
-      else { await createBlankFile() }
-    }
-    else {
-      await openBlankFile()
-    }
-  }
-  else {
-    showErrorMessage('Working folder not found, open a folder an try again')
-  }
-}
+import { config } from './config'
 
 export async function start() {
+  Log.info(`Configs: ${JSON.stringify(config)}`)
   await closeAllOpenedFiles()
   const workspaceFolders = getWorkspaceFolders()
-  if (workspaceFolders !== undefined) {
+  if (workspaceFolders) {
     const dir = Uri.file(workspaceFolders[0].uri.fsPath).fsPath
     const files = await getFiles(dir)
     if (files.size) {
@@ -63,19 +19,19 @@ export async function start() {
       await Promise.allSettled(showDocPromises)
       await pForever(async (index) => {
         index++
-        if (index > 100)
+        if (index > config.navigation.maxLimit)
           return pForever.end
 
-        await navigateFile(index - 1, files.size, [...files])
+        await navigateFile(index - 1, files.size, [...files], config.navigation.timeout)
         return index
       }, 0)
     }
     else {
-      await blankFilePrompt()
+      await prompt.blankFile()
     }
   }
   else {
-    await blankFilePrompt()
+    await prompt.blankFile()
   }
 }
 
