@@ -16,8 +16,8 @@ describe('utils > fs', () => {
       const files = await getFiles({
         dir: fixturesPath,
       })
-      expect(files.size).toEqual(7)
-      expect(files).toEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file))))
+      expect(files.size).toStrictEqual(7)
+      expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file))))
     })
 
     it('should valid get files when ignoresh is empty', async () => {
@@ -25,8 +25,8 @@ describe('utils > fs', () => {
         dir: fixturesPath,
         ignores: ['.gitignore'],
       })
-      expect(files.size).toEqual(5)
-      expect(files).toEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file)).filter(f => !f.includes('.gitignore'))))
+      expect(files.size).toStrictEqual(5)
+      expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file)).filter(f => !f.includes('.gitignore'))))
     })
 
     it('should valid get files when ignores is not empty', async () => {
@@ -34,8 +34,8 @@ describe('utils > fs', () => {
         dir: fixturesPath,
         ignores: ['.gitignore'],
       })
-      expect(files.size).toEqual(5)
-      expect(files).toEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file)).filter(f => !f.includes('.gitignore'))))
+      expect(files.size).toStrictEqual(5)
+      expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file)).filter(f => !f.includes('.gitignore'))))
     })
   })
 
