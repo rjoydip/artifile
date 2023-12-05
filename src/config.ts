@@ -1,8 +1,8 @@
 import { computed, reactive, ref } from '@vue/reactivity'
 import { workspace } from 'vscode'
-import { getProperty } from 'dot-prop'
 import { contributes } from '../package.json'
 import { EXT_NAMESPACE } from './meta'
+import { getProperty } from './utils/obj'
 
 const _configState = ref(0)
 

@@ -1,7 +1,7 @@
 import { Uri } from 'vscode'
 import { pForever } from './extrn'
 import { Log, closeAllOpenedFiles, getWorkspaceFolders, navigateFile, openTextDocument, prompt, showTextDocumentNonPreview } from './utils'
-import { getFiles } from './utils/fs'
+import { getFiles, getGitIgnoreItems } from './utils/fs'
 import { config } from './config'
 
 export async function start() {
@@ -10,7 +10,16 @@ export async function start() {
   const workspaceFolders = getWorkspaceFolders()
   if (workspaceFolders) {
     const dir = Uri.file(workspaceFolders[0].uri.fsPath).fsPath
-    const files = await getFiles(dir)
+    const ignores = await getGitIgnoreItems({
+      dir,
+      excludes: config.excludes,
+      gitignore: config.gitignore,
+    })
+    Log.info(`${JSON.stringify(ignores)}`)
+    const files = await getFiles({
+      dir,
+      ignores,
+    })
     if (files.size) {
       const showDocPromises = [...files].map(async (file: string) => {
         const document = await openTextDocument(file)

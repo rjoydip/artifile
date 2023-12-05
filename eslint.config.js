@@ -1,6 +1,7 @@
-import antfu from '@antfu/eslint-config'
+// eslint.config.js
+const antfu = require('@antfu/eslint-config').default
 
-export default antfu({
+module.exports = antfu({
   stylistic: true,
   typescript: true,
   markdown: true,
