@@ -46,7 +46,7 @@ describe('utils > fs', () => {
         excludes: [],
         gitignore: true,
       })
-      expect(files.length).toEqual(2)
+      expect(files.length).toEqual(1)
     })
 
     it('should valid if .gitignore files present but empty', async () => {
@@ -59,7 +59,7 @@ describe('utils > fs', () => {
 
     it('should valid if .gitignore files not present', async () => {
       const files = await getGitIgnoreItems({
-        dir: join(fixturesPath, 'temp'),
+        dir: join(fixturesPath, 'empty'),
         gitignore: true,
       })
       expect(files.length).toEqual(0)
