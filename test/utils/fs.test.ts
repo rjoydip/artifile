@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { fileExtRegex, getFiles, getGitIgnoreItems } from '../../src/utils/fs'
 
 const fixturesPath = join(__dirname, '..', 'fixtures')
-const filesShouldBeExpected = ['.gitignore', 'node_modules\\abc.js', 'empty-gitignore\\.gitignore', 'simple-text-file.txt', 'ruby.rb', 'package.json', 'typescript.ts']
+const filesShouldBeExpected = ['.gitignore', 'node_modules\\foo.js', 'empty-gitignore\\.gitignore', 'simple-text-file.txt', 'ruby.rb', 'package.json', 'typescript.ts']
 
 describe('utils > fs', () => {
   it('should valid file extension', () => {
