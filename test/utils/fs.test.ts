@@ -1,9 +1,9 @@
-import { join } from 'node:path'
+import { join, sep } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { fileExtRegex, getFiles, getGitIgnoreItems } from '../../src/utils/fs'
 
 const fixturesPath = join(__dirname, '..', 'fixtures')
-const filesShouldBeExpected = ['.gitignore', 'node_modules\\foo.js', 'empty-gitignore\\.gitignore', 'simple-text-file.txt', 'ruby.rb', 'package.json', 'typescript.ts']
+const filesShouldBeExpected = ['.gitignore', `node_modules${sep}foo.js`, `empty-gitignore${sep}.gitignore`, 'simple-text-file.txt', 'ruby.rb', 'package.json', 'typescript.ts']
 
 describe('utils > fs', () => {
   it('should valid file extension', () => {
@@ -16,7 +16,6 @@ describe('utils > fs', () => {
       const files = await getFiles({
         dir: fixturesPath,
       })
-      console.log('>>>', files)
       expect(files.size).toStrictEqual(7)
       expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file))))
     })
