@@ -65,8 +65,8 @@ devDependencies:
     specifier: 8.11.0
     version: 8.11.0
   taze:
-    specifier: ^0.12.3
-    version: 0.12.3
+    specifier: ^0.13.0
+    version: 0.13.0
   tsup:
     specifier: ^8.0.1
     version: 8.0.1(typescript@5.3.2)
@@ -5024,8 +5024,8 @@ packages:
       yallist: 4.0.0
     dev: true
 
-  /taze@0.12.3:
-    resolution: {integrity: sha512-kvc8+XM1nizAalJiVaFbVX0aLWuiCX4F/oW9ozt8otyy/ORejeqpe/6SIASmrY/T4CWsc1G3G4IfNg5KfGR11w==}
+  /taze@0.13.0:
+    resolution: {integrity: sha512-o17Y6miF+44sDJ7haRHTqZefTlGOaBSdDHRwRcrt+s3WeGSPBUtPSG18XNwToIXN//eh58hyYnyDwTnpYLp4sg==}
     hasBin: true
     dependencies:
       '@antfu/ni': 0.21.12
