@@ -37,29 +37,19 @@ export async function getFiles(ops: GetFileType = {
 
 export interface GitIgnoreFilesProps {
   dir?: string
-  excludes?: string[]
-  gitignore?: boolean
 }
 
 export async function getGitIgnoreItems(ops: GitIgnoreFilesProps = {
   dir: '',
-  excludes: [],
-  gitignore: false,
 }) {
   if (!ops.dir)
-    return []
-  if (!ops.gitignore)
     return []
 
   const gitignoreFilePath = join(ops.dir, '.gitignore')
 
   if (existsSync(gitignoreFilePath)) {
     const gitignoreContent = await readFile(join(ops.dir, '.gitignore'))
-    const ignores = gitignoreContent.toString().split('\r\n').filter(i => !!i)
-    if (ops.gitignore && ops.excludes)
-      return [...ops.excludes, ...ignores]
-
-    return ignores
+    return gitignoreContent.toString().split('\r\n').filter(i => !!i)
   }
   else {
     return []
