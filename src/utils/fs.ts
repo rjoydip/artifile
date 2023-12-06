@@ -1,6 +1,5 @@
 import { join } from 'node:path'
-import { existsSync } from 'node:fs'
-import { readFile } from 'fs-extra'
+import { existsSync, readFile } from 'fs-extra'
 import { totalist } from 'totalist'
 import { anyOf, createRegExp } from 'magic-regexp'
 import textExtensions from 'text-extensions'

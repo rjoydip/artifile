@@ -1,8 +1,8 @@
 import { execSync } from 'node:child_process'
-import fs from 'fs-extra'
+import { copy, readJSON, remove, writeJSON } from 'fs-extra'
 
 async function build() {
-  await fs.remove('./dist')
+  await remove('./dist')
   execSync('tsup src/index.ts --format cjs --external vscode --no-shims', { stdio: 'inherit' })
 
   const files = [
@@ -13,13 +13,13 @@ async function build() {
   ]
 
   for (const f of files)
-    await fs.copy(`./${f}`, `./dist/${f}`)
+    await copy(`./${f}`, `./dist/${f}`)
 
-  const json = await fs.readJSON('./package.json')
+  const json = await readJSON('./package.json')
   delete json.scripts
   delete json.devDependencies
   json.main = 'index.js'
-  await fs.writeJSON('./dist/package.json', json)
+  await writeJSON('./dist/package.json', json)
 }
 
 build()
