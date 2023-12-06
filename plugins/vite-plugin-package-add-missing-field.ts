@@ -1,9 +1,8 @@
 import { join } from 'node:path'
 import { cwd } from 'node:process'
+import { readFile, writeFile } from 'node:fs/promises'
 import _debug from 'debug'
 import type { Plugin } from 'vite'
-import { readPackage } from 'read-pkg'
-import { updatePackage } from 'write-package'
 
 const debug = _debug('vite-plugin-package-add-missing-field')
 
@@ -48,20 +47,14 @@ function VitePluginPackageAddMissingField(
       packagePath = cwd()
 
     if (isEmpty(packagePath) && !isEmpty(packageName)) {
-      if (isNPM) {
-        packagePath = join(
-          cwd(),
-          'node_modules',
-          packageName,
-        )
-      }
-      else {
-        packagePath = join(
-          cwd(),
-          packageName,
-        )
-      }
+      packagePath = join(
+        cwd(),
+        isNPM ? 'node_modules' : '',
+        packageName,
+      )
     }
+
+    packagePath = join(packagePath, 'package.json')
 
     return {
       name: 'vite-plugin-package-main',
@@ -69,18 +62,18 @@ function VitePluginPackageAddMissingField(
         debug('loading package.json at %s', packagePath)
 
         try {
-          const packageJson = await readPackage({
-            cwd: packagePath,
-          })
+          const packageJson = await readFile(packagePath, { encoding: 'utf8' })
+          const packageJsonData = JSON.parse(packageJson.toString())
           await Promise.all([...Object.keys(field).map(async (f: string) => {
-            const fieldValue = packageJson[f]
+            const fieldValue = packageJsonData[f]
             if (fieldValue) {
               debug('%s field already exists in package.json - skip', f)
               return
             }
             if (!fieldValue) {
               debug('%s field not found in package.json - add', f)
-              await updatePackage(packagePath, { [f]: field[f] })
+              const modifiedPackageData = Object.assign({}, packageJsonData, { [f]: field[f] })
+              await writeFile(packagePath, JSON.stringify(modifiedPackageData, null, 4))
             }
           })])
         }

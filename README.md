@@ -15,7 +15,7 @@ A VSCode automation extension
 - [x] Vscode configuration enabled
   - [x] User config
   - [x] Workspace config
-- [ ] Ignore files by parsing gitignore
+- [x] Ignore files by parsing gitignore
 - [ ] Read all file from top to bottom
 - [ ] Handle proper automation
 - [ ] Collect stats of each activity
