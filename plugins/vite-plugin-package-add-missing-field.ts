@@ -47,20 +47,14 @@ function VitePluginPackageAddMissingField(
       packagePath = cwd()
 
     if (isEmpty(packagePath) && !isEmpty(packageName)) {
-      if (isNPM) {
-        packagePath = join(
-          cwd(),
-          'node_modules',
-          packageName,
-        )
-      }
-      else {
-        packagePath = join(
-          cwd(),
-          packageName,
-        )
-      }
+      packagePath = join(
+        cwd(),
+        isNPM ? 'node_modules' : '',
+        packageName,
+      )
     }
+
+    packagePath = join(packagePath, 'package.json')
 
     return {
       name: 'vite-plugin-package-main',
@@ -68,8 +62,7 @@ function VitePluginPackageAddMissingField(
         debug('loading package.json at %s', packagePath)
 
         try {
-          const filePath = new URL(packagePath, import.meta.url)
-          const packageJson = await readFile(filePath)
+          const packageJson = await readFile(packagePath, { encoding: 'utf8' })
           const packageJsonData = JSON.parse(packageJson.toString())
           await Promise.all([...Object.keys(field).map(async (f: string) => {
             const fieldValue = packageJsonData[f]
@@ -79,7 +72,8 @@ function VitePluginPackageAddMissingField(
             }
             if (!fieldValue) {
               debug('%s field not found in package.json - add', f)
-              await writeFile(packagePath, Object.assign({}, packageJsonData, { [f]: field[f] }))
+              const modifiedPackageData = Object.assign({}, packageJsonData, { [f]: field[f] })
+              await writeFile(packagePath, JSON.stringify(modifiedPackageData, null, 4))
             }
           })])
         }
