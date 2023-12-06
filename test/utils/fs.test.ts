@@ -16,6 +16,7 @@ describe('utils > fs', () => {
       const files = await getFiles({
         dir: fixturesPath,
       })
+      console.log('>>>', files)
       expect(files.size).toStrictEqual(7)
       expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file))))
     })
