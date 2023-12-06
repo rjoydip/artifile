@@ -1,10 +1,8 @@
-/// <reference types="vitest" />
+import { defineConfig, mergeConfig } from 'vitest/config'
+import viteConfig from './vite.config'
 
-import { defineConfig } from 'vitest/config'
-
-export default defineConfig({
-  base: './src',
+export default mergeConfig(viteConfig, defineConfig({
   test: {
     exclude: ['**/src/**', '**/node_modules/**'],
   },
-})
+}))
