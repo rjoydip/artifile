@@ -1,8 +1,8 @@
 import { join } from 'node:path'
 import { cwd } from 'node:process'
-import { readFile, writeFile } from 'node:fs/promises'
 import _debug from 'debug'
 import type { Plugin } from 'vite'
+import { readFile, writeFile } from 'fs-extra'
 
 const debug = _debug('vite-plugin-package-add-missing-field')
 

@@ -10,11 +10,11 @@ export async function start() {
   const workspaceFolders = getWorkspaceFolders()
   if (workspaceFolders) {
     const dir = Uri.file(workspaceFolders[0].uri.fsPath).fsPath
-    const ignores = await getGitIgnoreItems({
-      dir,
-      excludes: config.excludes,
-      gitignore: config.gitignore,
-    })
+    const ignores = config.gitignore
+      ? await getGitIgnoreItems({
+        dir,
+      })
+      : config.excludes
     Log.info(`${JSON.stringify(ignores)}`)
     const files = await getFiles({
       dir,
