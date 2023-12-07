@@ -98,19 +98,18 @@
   "dependencies": {
     "magic-regexp": "^0.7.0",
     "text-extensions": "^2.4.0",
-    "totalist": "^3.0.1"
+    "totalist": "^3.0.1",
+    "vscode": "^1.1.37"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.3.4",
     "@antfu/ni": "^0.21.12",
-    "@types/debug": "^4.1.12",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.10.3",
     "@types/vscode": "^1.84.2",
     "@vscode/vsce": "^2.22.0",
     "@vue/reactivity": "^3.3.10",
     "bumpp": "^9.2.0",
-    "debug": "^4.3.4",
     "eslint": "^8.55.0",
     "esno": "^4.0.0",
     "fs-extra": "^11.2.0",
@@ -118,8 +117,11 @@
     "taze": "^0.13.0",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.6",
-    "vitest": "^0.34.6",
-    "vscode": "^1.1.37"
+    "vitest": "^0.34.6"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "vscode@1.1.37": "patches/vscode@1.1.37.patch"
+    }
   }
 }

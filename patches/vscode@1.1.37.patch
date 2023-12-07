@@ -1,0 +1,12 @@
+diff --git a/package.json b/package.json
+index 7d2287ba4b5a823be1ee2ff046d1db7743bf2ebb..faf697afaf9626127cc32a829d9322a938e61dbb 100644
+--- a/package.json
++++ b/package.json
+@@ -13,6 +13,7 @@
+   "engines": {
+     "node": ">=8.9.3"
+   },
++  "main": "lib/shared.js",
+   "dependencies": {
+     "glob": "^7.1.2",
+     "http-proxy-agent": "^4.0.1",
