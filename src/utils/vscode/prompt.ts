@@ -15,7 +15,7 @@ async function blankFile() {
     if (createFilePprompt?.toLocaleLowerCase() === 'yes') {
       const filenamePrompt = await window.showInputBox({
         prompt: 'Enter file name',
-        value: 'Blank.txt',
+        value: 'Artifile.txt',
       })
       const directoryPrompt = await window.showInputBox({
         prompt: 'Enter location',

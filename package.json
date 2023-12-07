@@ -19,7 +19,7 @@
   "categories": [
     "Other"
   ],
-  "main": "./dist/index.js",
+  "main": "./dist/extension.js",
   "icon": "res/icon.png",
   "files": [
     "dist"
@@ -117,7 +117,7 @@
     "pnpm": "8.11.0",
     "taze": "^0.13.0",
     "tsup": "^8.0.1",
-    "typescript": "^5.3.2",
+    "typescript": "^5.3.3",
     "vite": "^5.0.6",
     "vitest": "^0.34.6",
     "vscode": "^1.1.37"

@@ -3,7 +3,7 @@ import { copy, readJSON, remove, writeJSON } from 'fs-extra'
 
 async function build() {
   await remove('./dist')
-  execSync('tsup src/index.ts --format cjs --external vscode --no-shims', { stdio: 'inherit' })
+  execSync('tsup src/extension.ts --format cjs --external vscode --no-shims', { stdio: 'inherit' })
 
   const files = [
     'LICENSE',
@@ -18,7 +18,7 @@ async function build() {
   const json = await readJSON('./package.json')
   delete json.scripts
   delete json.devDependencies
-  json.main = 'index.js'
+  json.main = 'extension.js'
   await writeJSON('./dist/package.json', json)
 }
 

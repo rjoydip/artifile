@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { config } from '../src/config'
+import { config } from '../../../src/utils/vscode/config'
 
 vi.mock('vscode', () => ({
   workspace: {
