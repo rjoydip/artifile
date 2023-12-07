@@ -6,10 +6,8 @@ class MockExtensionContext implements vscode.ExtensionContext {
   subscriptions: { dispose(): any }[] = []
   workspaceState!: vscode.Memento
   globalState!: vscode.Memento & { setKeysForSync(keys: readonly string[]): void }
-  secrets!: vscode.SecretStorage
   extensionUri: any = vi.fn()
   extensionPath!: string
-  environmentVariableCollection!: vscode.GlobalEnvironmentVariableCollection
   asAbsolutePath(_relativePath: string): string {
     throw new Error('Method not implemented.')
   }
@@ -20,7 +18,6 @@ class MockExtensionContext implements vscode.ExtensionContext {
   globalStoragePath!: string
   logUri: any = vi.fn()
   logPath!: string
-  extensionMode: vscode.ExtensionMode = 1
   extension!: vscode.Extension<any>
 }
 

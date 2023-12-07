@@ -1,6 +1,5 @@
 export * from './config'
 export * from './document'
-export * from './editor'
 export * from './file'
 export * from './log'
 export * from './message'

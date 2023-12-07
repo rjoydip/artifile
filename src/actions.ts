@@ -1,8 +1,8 @@
 import { Uri } from 'vscode'
 import type { WorkspaceFolder } from 'vscode'
 import { pForever } from './extrn'
-import { closeAllOpenedFiles, getFiles, getWorkspaceFolders, navigateFileAsync, prompt, showFilesInEditorAsync } from './utils'
-import { config, isWorkspaceEmpty } from './utils/vscode'
+import { closeAllOpenedFiles, getFiles, getWorkspaceFolders, navigateFileAsync, showFilesInEditorAsync } from './utils'
+import { blankFilePrompt, config, isWorkspaceEmpty } from './utils/vscode'
 import type { ArtifileConfig } from './types'
 
 async function getFilesForAutomation(options?: {
@@ -42,10 +42,10 @@ export async function start() {
       await showFilesInEditorAsync(files)
       await startAutomation(config, files)
     }
-    else { await prompt.blankFile() }
+    else { await blankFilePrompt() }
   }
   else {
-    await prompt.blankFile()
+    await blankFilePrompt()
   }
 }
 

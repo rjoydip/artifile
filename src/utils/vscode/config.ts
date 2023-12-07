@@ -1,20 +1,12 @@
 import { computed, reactive, ref } from '@vue/reactivity'
 import { workspace } from 'vscode'
-import { contributes } from '../../../package.json'
 import { EXT_NAMESPACE } from '../../meta'
+import { contributes } from '../../../package.json'
 import { getProperty } from '../obj'
 import type { ArtifileConfig } from '../../types'
 
 const _configState = ref(0)
-
-export function getDefautConfigPropsValue<T>(ops: {
-  basePath?: string
-  path?: string
-  defaultValue?: T
-}) {
-  const propsBasePath = ops.basePath ?? 'configuration.properties'
-  return ops.path ? getProperty(contributes, `${propsBasePath}.${ops.path?.replace('.', '\\.')}`, ops.defaultValue) : getProperty(contributes, propsBasePath, ops.defaultValue)
-}
+const propsBasePath = `${EXT_NAMESPACE}.configuration.properties`
 
 function getConfig<T = any>(key: string): T | undefined {
   return workspace
@@ -41,26 +33,15 @@ function createConfigRef<T>(key: string, defaultValue: T, isGlobal = true) {
   })
 }
 
-const config: ArtifileConfig = reactive({
-  gitignore: createConfigRef(`${EXT_NAMESPACE}.gitignore`, getDefautConfigPropsValue({
-    path: `${EXT_NAMESPACE}.gitignore.default`,
-    defaultValue: true,
-  })),
-  excludes: createConfigRef(`${EXT_NAMESPACE}.excludes`, getDefautConfigPropsValue({
-    path: `${EXT_NAMESPACE}.excludes.items.enum`,
-    defaultValue: [],
-  })),
+export const config: ArtifileConfig = reactive({
+  gitignore: createConfigRef(`${EXT_NAMESPACE}.gitignore`, getProperty(
+    contributes,
+    `${propsBasePath}.gitignore.default`,
+    true,
+  )),
+  excludes: createConfigRef(`${EXT_NAMESPACE}.excludes`, getProperty(contributes, `${propsBasePath}.excludes.items.enum`, [])),
   navigation: {
-    timeout: createConfigRef(`${EXT_NAMESPACE}.navigation.timeout`, getDefautConfigPropsValue({
-      path: `${EXT_NAMESPACE}.navigation.timeout.default`,
-      defaultValue: 2000,
-    })),
-    maxLimit: createConfigRef(`${EXT_NAMESPACE}.navigation.maxLimit`, getDefautConfigPropsValue({
-      path: `${EXT_NAMESPACE}.navigation.maxLimit.default`,
-      defaultValue: 100,
-    })),
+    timeout: createConfigRef(`${EXT_NAMESPACE}.navigation.timeout`, getProperty(contributes, `${propsBasePath}.navigation.timeout.default`, 2000)),
+    maxLimit: createConfigRef(`${EXT_NAMESPACE}.navigation.maxLimit`, getProperty(contributes, `${propsBasePath}.navigation.maxLimit.default`, 100)),
   },
 })
-
-export default config
-export { config }
