@@ -7,21 +7,21 @@ const endSymbol = Symbol('pForever.end')
  * @returns Fulfills when `fn` returns `pForever.end`, or rejects if any of the promises returned from `fn` rejects.
  *
  * @example
-```
-import pForever from 'p-forever';
+  ```
+  import pForever from './pForever';
 
-pForever(async index => {
-  index++;
+  pForever(async index => {
+    index++;
 
-  if (index > 100) {
-    return pForever.end;
-  }
+    if (index > 100) {
+      return pForever.end;
+    }
 
-  await createFixture(index);
+    await createFixture(index);
 
-  return index;
-}, 0);
-```
+    return index;
+  }, 0);
+  ```
  */
 async function pForever<T>(
   function_: (

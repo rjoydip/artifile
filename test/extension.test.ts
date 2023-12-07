@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from 'vitest'
 
 import * as vscode from 'vscode'
 import { activate, deactivate } from '../src/extension'
-import { registerCommands } from '../src/commands'
 
 vi.mock('vscode', async () => {
   const actual = async () => await vi.importActual('vscode')
