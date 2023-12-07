@@ -36,9 +36,6 @@ devDependencies:
   '@types/node':
     specifier: ^20.10.4
     version: 20.10.4
-  '@types/vscode':
-    specifier: ^1.84.2
-    version: 1.84.2
   '@vscode/vsce':
     specifier: ^2.22.0
     version: 2.22.0
@@ -1124,10 +1121,6 @@ packages:
 
   /@types/unist@2.0.9:
     resolution: {integrity: sha512-zC0iXxAv1C1ERURduJueYzkzZ2zaGyc+P2c95hgkikHPr3z8EdUZOlgEQ5X0DRmwDZn+hekycQnoeiiRVrmilQ==}
-    dev: true
-
-  /@types/vscode@1.84.2:
-    resolution: {integrity: sha512-LCe1FvCDMJKkPdLVGYhP0HRJ1PDop2gRVm/zFHiOKwYLBRS7vEV3uOOUId4HMV+L1IxqyS+IZXMmlSMRbZGIAw==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@6.13.2(@typescript-eslint/parser@6.13.2)(eslint@8.55.0)(typescript@5.3.3):

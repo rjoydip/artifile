@@ -106,7 +106,6 @@
     "@antfu/ni": "^0.21.12",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.10.4",
-    "@types/vscode": "^1.84.2",
     "@vscode/vsce": "^2.22.0",
     "@vue/reactivity": "^3.3.10",
     "bumpp": "^9.2.0",
