@@ -17,7 +17,7 @@ vi.mock('vscode', () => ({
   },
 }))
 
-describe('config', () => {
+describe('utils > vscode > config', () => {
   afterEach(() => {
     vi.clearAllMocks()
   })
