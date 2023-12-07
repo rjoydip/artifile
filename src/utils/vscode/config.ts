@@ -3,6 +3,7 @@ import { workspace } from 'vscode'
 import { contributes } from '../../../package.json'
 import { EXT_NAMESPACE } from '../../meta'
 import { getProperty } from '../obj'
+import type { ArtifileConfig } from '../../types'
 
 const _configState = ref(0)
 
@@ -40,7 +41,7 @@ function createConfigRef<T>(key: string, defaultValue: T, isGlobal = true) {
   })
 }
 
-const config = reactive({
+const config: ArtifileConfig = reactive({
   gitignore: createConfigRef(`${EXT_NAMESPACE}.gitignore`, getDefautConfigPropsValue({
     path: `${EXT_NAMESPACE}.gitignore.default`,
     defaultValue: true,

@@ -30,9 +30,16 @@ export async function openBlankFile(fileContent: string = '') {
   return await window.showTextDocument(document)
 }
 
-export async function navigateFile(count: number = 0, numOfFiles: number = 0, files: string[], timeout: number = 0) {
+export async function navigateFileAsync(count: number = 0, numOfFiles: number = 0, files: string[], timeout: number = 0) {
   const nextIndex = (numOfFiles + count) % (numOfFiles)
   await setTimeout(timeout)
   const document = await openTextDocument(files[nextIndex])
   return await showTextDocumentNonPreview(document)
+}
+
+export async function showFilesInEditorAsync(files: Set<string>) {
+  return await Promise.allSettled([...files].map(async (file: string) => {
+    const document = await openTextDocument(file)
+    return await showTextDocumentNonPreview(document)
+  }))
 }

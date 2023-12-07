@@ -8,6 +8,10 @@ export function getWorkspaceFolders() {
   return workspace.workspaceFolders
 }
 
+export function isWorkspaceEmpty() {
+  return !!workspace.workspaceFolders
+}
+
 export function getWorkspaceFSpath() {
   let _path = ''
   const workspaceFolders = getWorkspaceFolders()
