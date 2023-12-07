@@ -1,6 +1,6 @@
 import { join, sep } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { fileExtRegex, getFiles, getGitIgnoreItems } from '../../src/utils/fs'
+import { fileExtRegex, getFiles, getGitIgnoreItems } from '../../src/utils'
 
 const fixturesPath = join(__dirname, '..', 'fixtures')
 const filesShouldBeExpected = ['.gitignore', `node_modules${sep}foo.js`, `empty-gitignore${sep}.gitignore`, 'simple-text-file.txt', 'ruby.rb', 'package.json', 'typescript.ts']

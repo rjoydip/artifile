@@ -1,8 +1,7 @@
 import { Uri } from 'vscode'
 import { pForever } from './extrn'
-import { Log, closeAllOpenedFiles, getWorkspaceFolders, navigateFile, openTextDocument, prompt, showTextDocumentNonPreview } from './utils'
-import { getFiles, getGitIgnoreItems } from './utils/fs'
-import { config } from './utils/vscode/config'
+import { Log, closeAllOpenedFiles, getFiles, getGitIgnoreItems, getWorkspaceFolders, navigateFile, openTextDocument, prompt, showTextDocumentNonPreview } from './utils'
+import { config } from './utils/vscode'
 
 export async function start() {
   Log.info(`Configs: ${JSON.stringify(config)}`)

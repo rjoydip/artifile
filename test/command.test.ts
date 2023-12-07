@@ -1,6 +1,6 @@
 import type * as vscode from 'vscode'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { RegisterCommands } from '../src/commands'
+import { registerCommands } from '../src/commands'
 
 class MockExtensionContext implements vscode.ExtensionContext {
   subscriptions: { dispose(): any }[] = []
@@ -37,7 +37,7 @@ describe('command', () => {
   describe('should validate register commands', () => {
     it('should valid number of commands registered', () => {
       const mockCtx = new MockExtensionContext()
-      expect(RegisterCommands(mockCtx).subscriptions.length).toBe(3)
+      expect(registerCommands(mockCtx).subscriptions.length).toBe(3)
     })
   })
 })

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getProperty } from '../../src/utils/obj'
+import { getProperty } from '../../src/utils'
 
 describe('utils > object', () => {
   it('should valid object by accesssing dot notation', () => {
