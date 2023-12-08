@@ -3,24 +3,28 @@ import { existsSync, readFile } from 'fs-extra'
 import { totalist } from 'totalist'
 import { anyOf, createRegExp } from 'magic-regexp'
 import textExtensions from 'text-extensions'
+import type { GetFileType, GitIgnoreFilesProps } from '../types'
 
 export const fileExtRegex = createRegExp('.', anyOf(...textExtensions))
 
-export interface GetFileType {
-  dir?: string
-  ignores?: string[]
-}
-
 export async function getFiles(ops: GetFileType = {
   dir: '',
-  ignores: [],
+  config: {
+    gitignore: false,
+    excludes: [],
+  },
 }) {
   const files: Set<string> = new Set()
-
   if (ops.dir) {
-    await totalist(ops.dir, (name: string, abs: string) => {
-      if (ops.ignores?.length) {
-        if (!createRegExp(anyOf(...ops.ignores)).test(abs)) {
+    await totalist(ops.dir, async (name: string, abs: string) => {
+      let ignores = ops?.config?.gitignore
+        ? await getGitIgnoreItems({
+          dir: ops.dir,
+        })
+        : ops.config?.excludes || []
+      ignores = ignores.filter(i => i)
+      if (ignores?.length) {
+        if (!createRegExp(anyOf(...ignores)).test(abs)) {
           if (fileExtRegex.test(name))
             files.add(abs)
         }
@@ -31,12 +35,7 @@ export async function getFiles(ops: GetFileType = {
       }
     })
   }
-
   return files
-}
-
-export interface GitIgnoreFilesProps {
-  dir?: string
 }
 
 export async function getGitIgnoreItems(ops: GitIgnoreFilesProps = {

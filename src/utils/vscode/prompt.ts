@@ -1,7 +1,7 @@
 import { window } from 'vscode'
 import { createBlankFile, getWorkspaceFSpath, openBlankFile, showErrorMessage } from '.'
 
-async function blankFile() {
+export async function blankFilePrompt() {
   const confirmationPrompt = await window.showInputBox({
     prompt: 'Do you want with empty file?',
     value: 'Yes',
@@ -15,7 +15,7 @@ async function blankFile() {
     if (createFilePprompt?.toLocaleLowerCase() === 'yes') {
       const filenamePrompt = await window.showInputBox({
         prompt: 'Enter file name',
-        value: 'Blank.txt',
+        value: 'Artifile.txt',
       })
       const directoryPrompt = await window.showInputBox({
         prompt: 'Enter location',
@@ -37,10 +37,3 @@ async function blankFile() {
     showErrorMessage('Working folder not found, open a folder an try again')
   }
 }
-
-const prompt = {
-  blankFile,
-}
-
-export default prompt
-export { prompt }

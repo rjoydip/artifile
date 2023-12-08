@@ -1,11 +1,11 @@
 import type { ExtensionContext } from 'vscode'
 import { version } from '../package.json'
-import { RegisterCommands } from './commands'
+import { registerCommands } from './commands'
 import { Log } from './utils'
 
 export async function activate(ctx: ExtensionContext) {
   Log.info(`🈶 Activated, v${version}`)
-  RegisterCommands(ctx)
+  registerCommands(ctx)
 }
 
 export function deactivate() {

@@ -1,46 +1,51 @@
 import { Uri } from 'vscode'
+import type { WorkspaceFolder } from 'vscode'
 import { pForever } from './extrn'
-import { Log, closeAllOpenedFiles, getWorkspaceFolders, navigateFile, openTextDocument, prompt, showTextDocumentNonPreview } from './utils'
-import { getFiles, getGitIgnoreItems } from './utils/fs'
-import { config } from './config'
+import { closeAllOpenedFiles, getFiles, getWorkspaceFolders, navigateFileAsync, showFilesInEditorAsync } from './utils'
+import { blankFilePrompt, config, isWorkspaceEmpty } from './utils/vscode'
+import type { ArtifileConfig } from './types'
+
+async function getFilesForAutomation(options?: {
+  workspaceFolders?: WorkspaceFolder[]
+  config?: ArtifileConfig
+}) {
+  let files: Set<string> = new Set()
+  const $workspaceFolders = options?.workspaceFolders || getWorkspaceFolders()
+  const dir = $workspaceFolders ? Uri.file($workspaceFolders[0].uri.fsPath).fsPath : null
+  if (dir) {
+    files = await getFiles({
+      dir,
+      config,
+    })
+    return files
+  }
+  return files
+}
+
+async function startAutomation(config: ArtifileConfig, files: Set<string>) {
+  const maxLimit = config?.navigation?.timeout ?? Number.POSITIVE_INFINITY
+  await pForever(async (index) => {
+    index++
+    if (index > maxLimit)
+      return pForever.end
+
+    await navigateFileAsync(index - 1, files.size, [...files], maxLimit)
+    return index
+  }, 0)
+}
 
 export async function start() {
-  Log.info(`Configs: ${JSON.stringify(config)}`)
   await closeAllOpenedFiles()
-  const workspaceFolders = getWorkspaceFolders()
-  if (workspaceFolders) {
-    const dir = Uri.file(workspaceFolders[0].uri.fsPath).fsPath
-    const ignores = config.gitignore
-      ? await getGitIgnoreItems({
-        dir,
-      })
-      : config.excludes
-    Log.info(`${JSON.stringify(ignores)}`)
-    const files = await getFiles({
-      dir,
-      ignores,
-    })
+  if (isWorkspaceEmpty()) {
+    const files = await getFilesForAutomation()
     if (files.size) {
-      const showDocPromises = [...files].map(async (file: string) => {
-        const document = await openTextDocument(file)
-        return await showTextDocumentNonPreview(document)
-      })
-      await Promise.allSettled(showDocPromises)
-      await pForever(async (index) => {
-        index++
-        if (index > config.navigation.maxLimit)
-          return pForever.end
-
-        await navigateFile(index - 1, files.size, [...files], config.navigation.timeout)
-        return index
-      }, 0)
+      await showFilesInEditorAsync(files)
+      await startAutomation(config, files)
     }
-    else {
-      await prompt.blankFile()
-    }
+    else { await blankFilePrompt() }
   }
   else {
-    await prompt.blankFile()
+    await blankFilePrompt()
   }
 }
 

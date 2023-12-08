@@ -1,6 +1,6 @@
 import { join, sep } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { fileExtRegex, getFiles, getGitIgnoreItems } from '../../src/utils/fs'
+import { fileExtRegex, getFiles, getGitIgnoreItems } from '../../src/utils'
 
 const fixturesPath = join(__dirname, '..', 'fixtures')
 const filesShouldBeExpected = ['.gitignore', `node_modules${sep}foo.js`, `empty-gitignore${sep}.gitignore`, 'simple-text-file.txt', 'ruby.rb', 'package.json', 'typescript.ts']
@@ -11,8 +11,8 @@ describe('utils > fs', () => {
     expect(fileExtRegex.test('index.ps')).toEqual(false)
   })
 
-  describe('should validate getFiles() methods', () => {
-    it('should valid get files', async () => {
+  describe('should validate "getFiles" methods', () => {
+    it('should valid files', async () => {
       const files = await getFiles({
         dir: fixturesPath,
       })
@@ -20,26 +20,54 @@ describe('utils > fs', () => {
       expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file))))
     })
 
-    it('should valid get files when ignoresh is empty', async () => {
+    it('should valid files when excludes is empty', async () => {
       const files = await getFiles({
         dir: fixturesPath,
-        ignores: ['.gitignore'],
+        config: {
+          excludes: ['.gitignore'],
+        },
       })
       expect(files.size).toStrictEqual(5)
       expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file)).filter(f => !f.includes('.gitignore'))))
     })
 
-    it('should valid get files when ignores is not empty', async () => {
+    it('should valid files when excludes is not empty', async () => {
       const files = await getFiles({
         dir: fixturesPath,
-        ignores: ['.gitignore'],
+        config: {
+          excludes: ['.gitignore'],
+        },
       })
       expect(files.size).toStrictEqual(5)
       expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file)).filter(f => !f.includes('.gitignore'))))
+    })
+
+    it('should valid files when gitignore is false', async () => {
+      const files = await getFiles({
+        dir: fixturesPath,
+        config: {
+          gitignore: false,
+        },
+      })
+      expect(files.size).toStrictEqual(7)
+      expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file))))
+    })
+
+    it('should valid files when gitignore is true', async () => {
+      const files = await getFiles({
+        dir: fixturesPath,
+        config: {
+          gitignore: true,
+        },
+      })
+      // Length is same of filesShouldBeExpected length because in the
+      // `fixtures` directory `.gitignore` doesn't have anything to ignored
+      expect(files.size).toStrictEqual(7)
+      expect(files).toStrictEqual(new Set(filesShouldBeExpected.map(file => join(fixturesPath, file))))
     })
   })
 
-  describe('should validate getGitIgnoreItems() methods', () => {
+  describe('should validate "getGitIgnoreItems" methods', () => {
     it('should valid if .gitignore files present and not empty', async () => {
       const files = await getGitIgnoreItems({
         dir: fixturesPath,
@@ -56,7 +84,7 @@ describe('utils > fs', () => {
 
     it('should valid if .gitignore files not present', async () => {
       const files = await getGitIgnoreItems({
-        dir: join(fixturesPath, 'empty'),
+        dir: join(fixturesPath, 'empty-dir'),
       })
       expect(files.length).toEqual(0)
     })

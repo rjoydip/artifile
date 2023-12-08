@@ -17,5 +17,9 @@ A VSCode automation extension
   - [x] Workspace config
 - [x] Ignore files by parsing gitignore
 - [ ] Read all file from top to bottom
+- [ ] Custom configuration file read. e.g.: `artifile.json`/`artifile.yml`/`artifile.ts`/`artifile.js`
+- [ ] Introduce auto writting using [retypewriter](https://github.com/antfu/retypewriter)
+- [ ] Using OpenAI for getting content by understanding project
+  - [ ] Enhance `retypewriter` capability using OpenAI
 - [ ] Handle proper automation
 - [ ] Collect stats of each activity
