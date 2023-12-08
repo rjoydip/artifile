@@ -21,11 +21,18 @@ class MockExtensionContext implements vscode.ExtensionContext {
   extension!: vscode.Extension<any>
 }
 
-vi.mock('vscode', () => ({
-  commands: {
-    registerCommand: vi.fn(),
-  },
-}))
+vi.mock('vscode', () => {
+  const actual = async () => await vi.importActual('vscode')
+  return {
+    ...actual,
+    window: {
+      activeTextEditor: {},
+    },
+    commands: {
+      registerCommand: vi.fn(),
+    },
+  }
+})
 
 describe('command', () => {
   afterEach(() => {

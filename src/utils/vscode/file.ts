@@ -35,7 +35,7 @@ export async function navigateFileAsync(count: number = 0, numOfFiles: number = 
   return await showTextDocumentNonPreview(document)
 }
 
-export async function showFilesInEditorAsync(files: Set<string>) {
+export async function showFilesInEditor(files: Set<string>) {
   return await Promise.allSettled([...files].map(async (file: string) => {
     const document = await openTextDocument(file)
     return await showTextDocumentNonPreview(document)
