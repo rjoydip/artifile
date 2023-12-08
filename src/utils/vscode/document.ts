@@ -1,6 +1,5 @@
-import { window, workspace } from 'vscode'
+import { Range, Selection, window, workspace } from 'vscode'
 import type { TextDocument, TextDocumentShowOptions } from 'vscode'
-import { Log } from './log'
 
 export function openTextDocument(file: string) {
   return workspace.openTextDocument(file)
@@ -8,7 +7,7 @@ export function openTextDocument(file: string) {
 
 export const isAnyDocumentOpenedInEditor = !!getOpenedDocument()
 
-export function getOpenedDocument(): TextDocument | null {
+function getOpenedDocument(): TextDocument | null {
   const editor = window.activeTextEditor
   if (editor)
     return editor.document
@@ -23,13 +22,15 @@ export function showTextDocumentNonPreview(document: TextDocument) {
   return showTextDocument(document, { preview: false })
 }
 
-export function readDocumentByCursor(document: TextDocument) {
-  const lineCount = document.lineCount
-
-  for (let lineNumber = 0; lineNumber < lineCount; lineNumber++) {
-    const line = document.lineAt(lineNumber)
-    const lineText = line.text
-
-    Log.info(lineText)
+export function readActiveDocumentByMoveCursor() {
+  const editor = window.activeTextEditor
+  if (editor) {
+    const currentPosition = editor.selection.active
+    const newPosition = currentPosition.with(currentPosition.line + 1, currentPosition.character)
+    editor.selection = new Selection(newPosition, newPosition)
+    editor.revealRange(new Range(newPosition, newPosition))
+  }
+  else {
+    window.showInformationMessage('No active text editor.')
   }
 }
