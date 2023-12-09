@@ -24,14 +24,14 @@ async function getFilesForAutomation(options?: {
 
 async function startAutomation(config: ArtifileConfig, files: Set<string>) {
   await showFilesInEditor(files)
-  const maxLimit = config?.navigation?.timeout ?? Number.POSITIVE_INFINITY
+  const maxLimit = config?.navigation?.maxLimit ?? Number.POSITIVE_INFINITY
   await pForever(async (index) => {
     index++
     if (index > maxLimit)
       return pForever.end
 
-    await navigateFiles(index - 1, files.size, [...files], maxLimit)
-    await readActiveDocumentByMoveCursor()
+    await navigateFiles(index - 1, files.size, [...files], config?.navigation?.timeout)
+    readActiveDocumentByMoveCursor()
     return index
   }, 0)
 }
