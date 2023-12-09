@@ -1,11 +1,24 @@
 import { join, sep } from 'node:path'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { fileExtRegex, getFiles, getGitIgnoreItems } from '../../src/utils'
 
 const fixturesPath = join(__dirname, '..', 'fixtures')
 const filesShouldBeExpected = ['.gitignore', `node_modules${sep}foo.js`, `empty-gitignore${sep}.gitignore`, 'simple-text-file.txt', 'ruby.rb', 'package.json', 'typescript.ts']
 
+vi.mock('vscode', () => {
+  const actual = async () => await vi.importActual('vscode')
+  return {
+    ...actual,
+    window: {
+      activeTextEditor: {},
+    },
+  }
+})
+
 describe('utils > fs', () => {
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
   it('should valid file extension', () => {
     expect(fileExtRegex.test('index.ts')).toEqual(true)
     expect(fileExtRegex.test('index.ps')).toEqual(false)

@@ -3,12 +3,21 @@ import type { Mocked } from 'vitest'
 import * as vscode from 'vscode'
 import { getWorkspaceFSpath, getWorkspaceFolders, getWorkspaceTextDocuments, isWorkspaceEmpty } from '../../../src/utils'
 
-vi.mock('vscode', () => ({
-  workspace: {
-    textDocuments: [],
-    workspaceFolders: [],
-  },
-}))
+vi.mock('vscode', () => {
+  const actual = async () => await vi.importActual('vscode')
+  return {
+    ...actual,
+    workspace: {
+      textDocuments: [],
+      workspaceFolders: [],
+    },
+    window: {
+      activeTextEditor: {
+        document: {},
+      },
+    },
+  }
+})
 
 const mockedVscode = vscode as Mocked<typeof vscode>
 
