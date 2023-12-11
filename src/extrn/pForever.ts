@@ -9,16 +9,16 @@ const endSymbol = Symbol('pForever.end')
  * @example
   ```
   import pForever from './pForever';
- 
+
   pForever(async index => {
     index++;
- 
+
     if (index > 100) {
       return pForever.end;
     }
- 
+
     await createFixture(index);
- 
+
     return index;
   }, 0);
   ```
