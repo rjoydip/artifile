@@ -23,7 +23,7 @@ const endSymbol = Symbol('pForever.end')
   }, 0);
   ```
  */
-async function pForever<T>(
+export async function pForever<T>(
   function_: (
     previousValue: T
   ) => PromiseLike<T | typeof pForever.end | typeof pForever.end>,
@@ -38,5 +38,3 @@ async function pForever<T>(
 };
 
 pForever.end = endSymbol
-
-export { pForever }

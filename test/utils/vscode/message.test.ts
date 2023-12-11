@@ -1,5 +1,4 @@
-import { describe } from 'node:test'
-import { afterEach, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { Mocked } from 'vitest'
 import * as vscode from 'vscode'
 import { showErrorMessage } from '../../../src/utils'

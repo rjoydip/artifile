@@ -1,9 +1,21 @@
 import { Uri } from 'vscode'
 import type { WorkspaceFolder } from 'vscode'
-import { pForever } from './extrn'
-import { closeAllOpenedFiles, getFiles, getWorkspaceFolders, navigateFiles, showFilesInEditor } from './utils'
-import { blankFilePrompt, config, isAnyDocumentOpenedInEditor, isWorkspaceEmpty, readActiveDocumentByMoveCursor } from './utils/vscode'
+import { closeAllOpenedFiles, getFiles, getWorkspaceFolders, openFileInEditor } from './utils'
+import { blankFilePrompt, config, isAnyDocumentOpenedInEditor, isWorkspaceEmpty, readActiveFile, showInfoMessage } from './utils/vscode'
 import type { ArtifileConfig } from './types'
+
+export async function start() {
+  showInfoMessage('Artifile - automation started')
+  await startAutomation()
+}
+
+export async function pause() {
+  showInfoMessage('Artifile - automation paused')
+}
+
+export async function stop() {
+  showInfoMessage('Artifile - automation stopped')
+}
 
 async function getFilesForAutomation(options?: {
   workspaceFolders?: WorkspaceFolder[]
@@ -22,44 +34,19 @@ async function getFilesForAutomation(options?: {
   return files
 }
 
-async function startAutomation(config: ArtifileConfig, files: Set<string>) {
-  await showFilesInEditor(files)
-  const maxLimit = config?.navigation?.maxLimit ?? Number.POSITIVE_INFINITY
-  await pForever(async (index) => {
-    index++
-    if (index > maxLimit)
-      return pForever.end
-
-    await navigateFiles(index - 1, files.size, [...files], config?.navigation?.timeout)
-    readActiveDocumentByMoveCursor()
-    return index
-  }, 0)
-}
-
-export async function start() {
+async function startAutomation() {
   if (isAnyDocumentOpenedInEditor)
     await closeAllOpenedFiles()
 
-  if (isWorkspaceEmpty()) {
-    const files = await getFilesForAutomation()
-    if (files.size) {
-      await startAutomation(config, files)
-    }
-    else {
-      await blankFilePrompt()
-      const files = await getFilesForAutomation()
-      await startAutomation(config, files)
-    }
-  }
-  else {
+  if (!isWorkspaceEmpty())
     await blankFilePrompt()
-    const files = await getFilesForAutomation()
-    await startAutomation(config, files)
-  }
-}
 
-export async function pause() {
-}
+  const files = await getFilesForAutomation()
+  if (!files.size)
+    return
 
-export async function stop() {
+  await Promise.all([...[...files].map(async (file: string) => {
+    await openFileInEditor(file)
+    await readActiveFile()
+  })])
 }

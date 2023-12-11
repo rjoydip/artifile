@@ -4,7 +4,7 @@
   "displayName": "Artifile - A VSCode automation extension",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@8.11.0",
+  "packageManager": "pnpm@8.12.0",
   "description": "A VSCode automation extension",
   "author": "Joydip Roy <joydip.and@gmail.com>",
   "license": "MIT",
@@ -69,7 +69,7 @@
         },
         "artifile.navigation.timeout": {
           "type": "integer",
-          "default": 0,
+          "default": 2000,
           "description": "Timeout for file navigation"
         },
         "artifile.navigation.maxLimit": {
@@ -102,17 +102,18 @@
     "vscode": "^1.1.37"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.4.3",
+    "@antfu/eslint-config": "^2.4.5",
     "@antfu/ni": "^0.21.12",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.10.4",
     "@vscode/vsce": "^2.22.0",
     "@vue/reactivity": "^3.3.11",
-    "bumpp": "^9.2.0",
+    "bumpp": "^9.2.1",
     "eslint": "^8.55.0",
+    "eslint-plugin-vitest": "^0.3.15",
     "esno": "^4.0.0",
     "fs-extra": "^11.2.0",
-    "pnpm": "8.11.0",
+    "pnpm": "8.12.0",
     "taze": "^0.13.0",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3",
