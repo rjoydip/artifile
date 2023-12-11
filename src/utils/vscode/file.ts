@@ -1,6 +1,5 @@
 import { Buffer } from 'node:buffer'
 import { join } from 'node:path'
-import { setTimeout } from 'node:timers/promises'
 import { Uri, commands, workspace } from 'vscode'
 import { existsSync, mkdirSync, writeFile } from 'fs-extra'
 import { openTextDocument, showTextDocument, showTextDocumentNonPreview } from './document'
@@ -28,14 +27,12 @@ export async function openBlankFile(fileContent: string = '') {
   return await showTextDocument(document)
 }
 
-export async function navigateFiles(count: number = 0, numOfFiles: number = 0, files: string[], timeout: number = 0) {
-  const nextIndex = (numOfFiles + count) % (numOfFiles)
-  await setTimeout(timeout)
-  const document = await openTextDocument(files[nextIndex])
+export async function openFileInEditor(file: string) {
+  const document = await openTextDocument(file)
   return await showTextDocumentNonPreview(document)
 }
 
-export async function showFilesInEditor(files: Set<string>) {
+export async function openFilesInEditor(files: Set<string>) {
   return await Promise.allSettled([...files].map(async (file: string) => {
     const document = await openTextDocument(file)
     return await showTextDocumentNonPreview(document)

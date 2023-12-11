@@ -69,7 +69,7 @@
         },
         "artifile.navigation.timeout": {
           "type": "integer",
-          "default": 0,
+          "default": 2000,
           "description": "Timeout for file navigation"
         },
         "artifile.navigation.maxLimit": {

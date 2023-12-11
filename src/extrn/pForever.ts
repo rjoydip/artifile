@@ -9,21 +9,21 @@ const endSymbol = Symbol('pForever.end')
  * @example
   ```
   import pForever from './pForever';
-
+ 
   pForever(async index => {
     index++;
-
+ 
     if (index > 100) {
       return pForever.end;
     }
-
+ 
     await createFixture(index);
-
+ 
     return index;
   }, 0);
   ```
  */
-async function pForever<T>(
+export async function pForever<T>(
   function_: (
     previousValue: T
   ) => PromiseLike<T | typeof pForever.end | typeof pForever.end>,
@@ -38,5 +38,3 @@ async function pForever<T>(
 };
 
 pForever.end = endSymbol
-
-export { pForever }

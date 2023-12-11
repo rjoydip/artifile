@@ -8,6 +8,19 @@ import type { ArtifileConfig } from '../../types'
 const _configState = ref(0)
 const propsBasePath = `${EXT_NAMESPACE}.configuration.properties`
 
+export const config: ArtifileConfig = reactive({
+  gitignore: createConfigRef(`${EXT_NAMESPACE}.gitignore`, getProperty(
+    contributes,
+    `${propsBasePath}.gitignore.default`,
+    true,
+  )),
+  excludes: createConfigRef(`${EXT_NAMESPACE}.excludes`, getProperty(contributes, `${propsBasePath}.excludes.items.enum`, [])),
+  navigation: {
+    timeout: createConfigRef(`${EXT_NAMESPACE}.navigation.timeout`, getProperty(contributes, `${propsBasePath}.navigation.timeout.default`, 2000)),
+    maxLimit: createConfigRef(`${EXT_NAMESPACE}.navigation.maxLimit`, getProperty(contributes, `${propsBasePath}.navigation.maxLimit.default`, 100)),
+  },
+})
+
 function getConfig<T = any>(key: string): T | undefined {
   return workspace
     .getConfiguration()
@@ -32,16 +45,3 @@ function createConfigRef<T>(key: string, defaultValue: T, isGlobal = true) {
     },
   })
 }
-
-export const config: ArtifileConfig = reactive({
-  gitignore: createConfigRef(`${EXT_NAMESPACE}.gitignore`, getProperty(
-    contributes,
-    `${propsBasePath}.gitignore.default`,
-    true,
-  )),
-  excludes: createConfigRef(`${EXT_NAMESPACE}.excludes`, getProperty(contributes, `${propsBasePath}.excludes.items.enum`, [])),
-  navigation: {
-    timeout: createConfigRef(`${EXT_NAMESPACE}.navigation.timeout`, getProperty(contributes, `${propsBasePath}.navigation.timeout.default`, 2000)),
-    maxLimit: createConfigRef(`${EXT_NAMESPACE}.navigation.maxLimit`, getProperty(contributes, `${propsBasePath}.navigation.maxLimit.default`, 100)),
-  },
-})
