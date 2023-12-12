@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { fileExtRegex, getFiles, getGitIgnoreItems } from '../../src/utils'
 
 const fixturesPath = join(__dirname, '..', 'fixtures')
-const filesShouldBeExpected = ['.gitignore', `node_modules${sep}foo.js`, `empty-gitignore${sep}.gitignore`, 'simple-text-file.txt', 'ruby.rb', 'package.json', 'typescript.ts']
+const filesShouldBeExpected = ['.gitignore', `node_modules${sep}foo.js`, `empty-gitignore${sep}.gitignore`, 'simple-text-file.txt', 'ruby.rb', 'package.json', 'rust.rs']
 
 vi.mock('vscode', () => {
   const actual = async () => await vi.importActual('vscode')

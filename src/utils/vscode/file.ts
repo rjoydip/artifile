@@ -31,10 +31,3 @@ export async function openFileInEditor(file: string) {
   const document = await openTextDocument(file)
   return await showTextDocumentNonPreview(document)
 }
-
-export async function openFilesInEditor(files: Set<string>) {
-  return await Promise.allSettled([...files].map(async (file: string) => {
-    const document = await openTextDocument(file)
-    return await showTextDocumentNonPreview(document)
-  }))
-}

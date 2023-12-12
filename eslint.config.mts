@@ -5,6 +5,7 @@ export default antfu({
   typescript: true,
   markdown: true,
   jsonc: true,
+  gitignore: true,
 }, {
-  ignores: ['**/fixtures'],
+  ignores: ['**/fixtures', '**/patches'],
 })
