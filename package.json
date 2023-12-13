@@ -81,11 +81,11 @@
     }
   },
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "all": "nr deps:update && nr lint:fix && nr typecheck && nr build && nr test",
+    "all": "nr deps:update && nr lint:fix && nr typecheck && nr build && nr knip && nr test",
     "build": "esno scripts/build.ts",
     "dev": "esno scripts/dev.ts",
     "deps:update": "taze -r -w -i -f -l",
+    "knip": "knip",
     "lint": "eslint-ts .",
     "lint:fix": "eslint-ts . --fix",
     "publish": "vsce publish --no-dependencies",
@@ -113,6 +113,7 @@
     "eslint-ts-patch": "8.55.0-1",
     "esno": "^4.0.0",
     "fs-extra": "^11.2.0",
+    "knip": "^3.7.0",
     "pnpm": "8.12.0",
     "taze": "^0.13.0",
     "tsup": "^8.0.1",
