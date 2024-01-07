@@ -41,7 +41,7 @@ devDependencies:
     version: 2.22.0
   '@vue/reactivity':
     specifier: ^3.3.11
-    version: 3.3.11
+    version: 3.4.5
   bumpp:
     specifier: ^9.2.1
     version: 9.2.1
@@ -1583,14 +1583,18 @@ packages:
       magic-string: 0.30.5
     dev: true
 
-  /@vue/reactivity@3.3.11:
-    resolution: {integrity: sha512-D5tcw091f0nuu+hXq5XANofD0OXnBmaRqMYl5B3fCR+mX+cXJIGNw/VNawBqkjLNWETrFW0i+xH9NvDbTPVh7g==}
+  /@vue/reactivity@3.4.5:
+    resolution: {integrity: sha512-BcWkKvjdvqJwb7BhhFkXPLDCecX4d4a6GATvCduJQDLv21PkPowAE5GKuIE5p6RC07/Lp9FMkkq4AYCTVF5KlQ==}
     dependencies:
-      '@vue/shared': 3.3.11
+      '@vue/shared': 3.4.5
     dev: true
 
   /@vue/shared@3.3.11:
     resolution: {integrity: sha512-u2G8ZQ9IhMWTMXaWqZycnK4UthG1fA238CD+DP4Dm4WJi5hdUKKLg0RMRaRpDPNMdkTwIDkp7WtD0Rd9BH9fLw==}
+    dev: true
+
+  /@vue/shared@3.4.5:
+    resolution: {integrity: sha512-6XptuzlMvN4l4cDnDw36pdGEV+9njYkQ1ZE0Q6iZLwrKefKaOJyiFmcP3/KBDHbt72cJZGtllAc1GaHe6XGAyg==}
     dev: true
 
   /@zkochan/retry@0.2.0:
